@@ -59,6 +59,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBox1.Font = new System.Drawing.Font("宋体", 15F);
             this.textBox1.Location = new System.Drawing.Point(224, 85);
             this.textBox1.Name = "textBox1";
@@ -70,6 +71,7 @@
             // 
             this.HotKey_Select.Font = new System.Drawing.Font("宋体", 12F);
             this.HotKey_Select.FormattingEnabled = true;
+            this.HotKey_Select.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.HotKey_Select.Items.AddRange(new object[] {
             "F1",
             "F2",
@@ -85,7 +87,7 @@
             this.HotKey_Select.Name = "HotKey_Select";
             this.HotKey_Select.Size = new System.Drawing.Size(177, 28);
             this.HotKey_Select.TabIndex = 4;
-            this.HotKey_Select.SelectedIndexChanged += new System.EventHandler(this.HotKey_Select_SelectedIndexChanged);
+            this.HotKey_Select.TabStop = false;
             // 
             // Status
             // 
