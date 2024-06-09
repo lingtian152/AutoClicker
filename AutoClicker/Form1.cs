@@ -11,21 +11,22 @@ namespace AutoClicker
 {
     public partial class Form1 : Form
     {
+        
+        KeyboardHook keyboardHook; // 键盘钩子
+
         static string FileName = "settings.ini";
         int clickInterval = 100; // Default Click CoolDown
-        string HotKey = "F6"; // Default HotKey
+        string HotKey = "F1"; // Default HotKey
         bool isClicking = false;
 
-        KeyboardHook keyboardHook;
 
-        
-
+        Thread clickThread;
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
-        const int MOUSEEVENTF_LEFTDOWN = 0x0002;
-        const int MOUSEEVENTF_LEFTUP = 0x0004;
+        const int MOUSEEVENTF_LEFTDOWN = 0x0002; // 鼠标左键按下
+        const int MOUSEEVENTF_LEFTUP = 0x0004; // 鼠标左键抬起
 
         public Form1()
         {
@@ -45,11 +46,12 @@ namespace AutoClicker
             keyboardHook.Start();
         }
 
+
         private void LoadSettings() // 加载设置
         {
             if (!File.Exists(FileName))
             {
-                using (File.Create(FileName)) { }
+                using (File.Create(FileName)) {}
             }
 
             try
@@ -128,14 +130,11 @@ namespace AutoClicker
             SaveSettings("ClickInterval", clickInterval);
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
+        private void HotKey_Select_SelectedIndexChanged(object sender, EventArgs e)
         {
-            StartClicking();
-        }
+            this.HotKey = this.HotKey_Select.Text;
 
-        private void StopButton_Click(object sender, EventArgs e)
-        {
-            StopClicking();
+            SaveSettings("HotKey", HotKey);
         }
 
         private void StartClicking()
@@ -177,17 +176,22 @@ namespace AutoClicker
               else
               {
                   StartClicking();
-                  Thread clickThread = new Thread(ClickingLoop);
-                  clickThread.Start();
+                    clickThreadStart();         
               }                
             }
         }
 
-        private void HotKey_Select_SelectedIndexChanged(object sender, EventArgs e)
+        private void clickThreadStart()
         {
-            this.HotKey = this.HotKey_Select.Text;
+            clickThread = new Thread(ClickingLoop);
+            clickThread.Start();
+        }
 
-            SaveSettings("HotKey", HotKey);
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            keyboardHook.Stop();
+            base.OnFormClosing(e);
+            clickThread.Abort();
         }
     }
 }
