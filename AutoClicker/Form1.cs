@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using SharpConfig;
-using Microsoft.Win32;
 
 
 namespace AutoClicker
@@ -38,7 +37,7 @@ namespace AutoClicker
 
             this.textBox1.Text = clickInterval.ToString();
             this.HotKey_Select.Text = HotKey;
-            this.textBox1.TextChanged += new EventHandler(textBox1_TextChanged);
+            this.textBox1.TextChanged += new EventHandler(Cooldown_Changed);
 
             // 初始化 键盘钩子
             keyboardHook = new KeyboardHook();
@@ -46,12 +45,45 @@ namespace AutoClicker
             keyboardHook.Start();
         }
 
+        private void Cooldown_Changed(object sender, EventArgs e)
+        {
+            if (!int.TryParse(this.textBox1.Text, out int clickInterval))
+            {
+                MessageBox.Show("Please enter a number");
+                return;
+            } else if (clickInterval <= 0)
+            {
+                MessageBox.Show("Please enter a number greater than 0");
+                this.textBox1.Text = 100.ToString();
+                return;
+            }
+
+            clickInterval = int.Parse(this.textBox1.Text);
+            SaveSettings("ClickInterval", clickInterval);
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void MinimiButton_Click(object sender, EventArgs e) // 最小化按钮
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void HotkeySelec_Changed(object sender, EventArgs e) // 热键选择
+        {
+            this.HotKey = this.HotKey_Select.Text;
+
+            SaveSettings("HotKey", HotKey);
+        }
 
         private void LoadSettings() // 加载设置
         {
             if (!File.Exists(FileName))
             {
-                using (File.Create(FileName)) {}
+                using (File.Create(FileName)) { }
             }
 
             try
@@ -113,30 +145,6 @@ namespace AutoClicker
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (!int.TryParse(this.textBox1.Text, out int clickInterval))
-            {
-                MessageBox.Show("Please enter a number");
-                return;
-            } else if (clickInterval <= 0)
-            {
-                MessageBox.Show("Please enter a number greater than 0");
-                this.textBox1.Text = 100.ToString();
-                return;
-            }
-
-            clickInterval = int.Parse(this.textBox1.Text);
-            SaveSettings("ClickInterval", clickInterval);
-        }
-
-        private void HotKey_Select_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.HotKey = this.HotKey_Select.Text;
-
-            SaveSettings("HotKey", HotKey);
-        }
-
         private void StartClicking()
         {
             if (!isClicking)
@@ -165,7 +173,7 @@ namespace AutoClicker
             }
         }
 
-        private void Hook_KeyDown(object sender, KeyEventArgs e)
+        private void Hook_KeyDown(object sender, KeyEventArgs e) // 按下热键
         {
             if (e.KeyCode.ToString() == HotKey)
             {
@@ -176,7 +184,7 @@ namespace AutoClicker
               else
               {
                   StartClicking();
-                    clickThreadStart();         
+                  clickThreadStart();         
               }                
             }
         }
@@ -187,11 +195,14 @@ namespace AutoClicker
             clickThread.Start();
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e) // 关闭窗口
         {
             keyboardHook.Stop();
+            if (clickThread != null)
+            {
+                clickThread.Abort();
+            }
             base.OnFormClosing(e);
-            clickThread.Abort();
         }
     }
 }
