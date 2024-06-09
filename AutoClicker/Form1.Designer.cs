@@ -39,7 +39,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(82, 82);
+            this.label1.Location = new System.Drawing.Point(82, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 28);
             this.label1.TabIndex = 0;
@@ -50,7 +50,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(96, 157);
+            this.label2.Location = new System.Drawing.Point(82, 131);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(110, 28);
             this.label2.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBox1.Font = new System.Drawing.Font("宋体", 15F);
-            this.textBox1.Location = new System.Drawing.Point(224, 85);
+            this.textBox1.Location = new System.Drawing.Point(224, 51);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(177, 36);
             this.textBox1.TabIndex = 2;
@@ -83,7 +83,7 @@
             "F8",
             "F9",
             "F10"});
-            this.HotKey_Select.Location = new System.Drawing.Point(224, 161);
+            this.HotKey_Select.Location = new System.Drawing.Point(224, 135);
             this.HotKey_Select.Name = "HotKey_Select";
             this.HotKey_Select.Size = new System.Drawing.Size(177, 28);
             this.HotKey_Select.TabIndex = 4;
@@ -95,7 +95,7 @@
             this.Status.AutoSize = true;
             this.Status.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Status.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Status.Location = new System.Drawing.Point(119, 226);
+            this.Status.Location = new System.Drawing.Point(113, 231);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(253, 30);
             this.Status.TabIndex = 6;
