@@ -39,13 +39,13 @@ namespace AutoClicker
             this.HotKey_Select.Text = HotKey;
             this.textBox1.TextChanged += new EventHandler(textBox1_TextChanged);
 
-            // Initialize and start the keyboard hook
+            // 初始化 键盘钩子
             keyboardHook = new KeyboardHook();
             keyboardHook.KeyDownEvent += new KeyEventHandler(Hook_KeyDown);
             keyboardHook.Start();
         }
 
-        private void LoadSettings()
+        private void LoadSettings() // 加载设置
         {
             if (!File.Exists(FileName))
             {
@@ -83,7 +83,7 @@ namespace AutoClicker
             }
         }
 
-        public void SaveSettings(string key, object value)
+        public void SaveSettings(string key, object value) // 保存设置
         {
             try
             {
@@ -124,7 +124,7 @@ namespace AutoClicker
                 return;
             }
 
-            this.clickInterval = clickInterval;
+            clickInterval = int.Parse(this.textBox1.Text);
             SaveSettings("ClickInterval", clickInterval);
         }
 
@@ -181,6 +181,13 @@ namespace AutoClicker
                   clickThread.Start();
               }                
             }
+        }
+
+        private void HotKey_Select_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.HotKey = this.HotKey_Select.Text;
+
+            SaveSettings("HotKey", HotKey);
         }
     }
 }

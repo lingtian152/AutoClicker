@@ -88,6 +88,7 @@
             this.HotKey_Select.Size = new System.Drawing.Size(177, 28);
             this.HotKey_Select.TabIndex = 4;
             this.HotKey_Select.TabStop = false;
+            this.HotKey_Select.SelectedIndexChanged += new System.EventHandler(this.HotKey_Select_SelectedIndexChanged);
             // 
             // Status
             // 
