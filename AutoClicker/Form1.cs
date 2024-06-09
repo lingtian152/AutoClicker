@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using SharpConfig;
+using Microsoft.Win32;
+
 
 namespace AutoClicker
 {
@@ -13,21 +15,17 @@ namespace AutoClicker
         int clickInterval = 100; // Default Click CoolDown
         string HotKey = "F6"; // Default HotKey
         bool isClicking = false;
-        Thread clickingThread;
 
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+        KeyboardHook keyboardHook;
 
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        
+
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
         const int MOUSEEVENTF_LEFTDOWN = 0x0002;
         const int MOUSEEVENTF_LEFTUP = 0x0004;
-
-        const int HOTKEY_ID = 1; // ID for the hotkey
 
         public Form1()
         {
@@ -39,11 +37,12 @@ namespace AutoClicker
 
             this.textBox1.Text = clickInterval.ToString();
             this.HotKey_Select.Text = HotKey;
-
             this.textBox1.TextChanged += new EventHandler(textBox1_TextChanged);
-            this.HotKey_Select.SelectedIndexChanged += new EventHandler(HotKey_Select_SelectedIndexChanged);
 
-            RegisterHotKey();
+            // Initialize and start the keyboard hook
+            keyboardHook = new KeyboardHook();
+            keyboardHook.KeyDownEvent += new KeyEventHandler(Hook_KeyDown);
+            keyboardHook.Start();
         }
 
         private void LoadSettings()
@@ -118,17 +117,15 @@ namespace AutoClicker
             {
                 MessageBox.Show("Please enter a number");
                 return;
+            } else if (clickInterval <= 0)
+            {
+                MessageBox.Show("Please enter a number greater than 0");
+                this.textBox1.Text = 100.ToString();
+                return;
             }
 
             this.clickInterval = clickInterval;
             SaveSettings("ClickInterval", clickInterval);
-        }
-
-        private void HotKey_Select_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            HotKey = this.HotKey_Select.Text;
-            SaveSettings("HotKey", HotKey);
-            RegisterHotKey(); // Re-register the hotkey
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -147,8 +144,6 @@ namespace AutoClicker
             {
                 isClicking = true;
                 this.Status.Text = "Status: On";
-                clickingThread = new Thread(ClickingLoop);
-                clickingThread.Start();
             }
         }
 
@@ -157,7 +152,6 @@ namespace AutoClicker
             if (isClicking)
             {
                 isClicking = false;
-                clickingThread?.Join();
                 this.Status.Text = "Status: Off";
             }
         }
@@ -172,42 +166,21 @@ namespace AutoClicker
             }
         }
 
-        private void RegisterHotKey()
+        private void Hook_KeyDown(object sender, KeyEventArgs e)
         {
-            UnregisterHotKey(this.Handle, HOTKEY_ID); // Unregister any existing hotkey
-
-            uint vk = (uint)Enum.Parse(typeof(Keys), HotKey, true);
-            bool registered = RegisterHotKey(this.Handle, HOTKEY_ID, 0, vk);
-
-            if (!registered)
+            if (e.KeyCode.ToString() == HotKey)
             {
-                MessageBox.Show("Failed to register hotkey.");
+              if (isClicking)
+              {
+                  StopClicking();
+              }
+              else
+              {
+                  StartClicking();
+                  Thread clickThread = new Thread(ClickingLoop);
+                  clickThread.Start();
+              }                
             }
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            const int WM_HOTKEY = 0x0312;
-
-            if (m.Msg == WM_HOTKEY && m.WParam.ToInt32() == HOTKEY_ID)
-            {
-                if (isClicking)
-                {
-                    StopClicking();
-                }
-                else
-                {
-                    StartClicking();
-                }
-            }
-
-            base.WndProc(ref m);
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            UnregisterHotKey(this.Handle, HOTKEY_ID);
-            base.OnFormClosing(e);
         }
     }
 }
