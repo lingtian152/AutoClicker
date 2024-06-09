@@ -7,7 +7,12 @@ using System.Reflection;
 
 namespace AutoClicker
 {
-    
+
+    /// <summary>
+    /// code source from: https://www.cnblogs.com/zhaoshujie/p/14294614.html
+    /// key hook class
+    /// </summary>
+
     class KeyboardHook
     {
         public event KeyEventHandler KeyDownEvent;
