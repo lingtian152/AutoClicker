@@ -50,6 +50,7 @@ namespace AutoClicker
             {
                 cancellationTokenSource.Cancel();
                 cancellationTokenSource = null;
+                return;
             }
         }
     }
