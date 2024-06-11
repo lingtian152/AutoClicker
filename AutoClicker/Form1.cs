@@ -8,17 +8,21 @@ using SharpConfig;
 
 namespace AutoClicker
 {
+
     public partial class Form1 : Form
     {
+
         static string FileName = "settings.ini";
-        int clickInterval = 100; // Default Click CoolDown
-        string HotKey = "F6"; // Default HotKey
-        bool isClicking = false;
+        private int clickInterval; // set the click interval
+        private string HotKey; // set the hotkey
+        private bool isClicking;
 
         AutoClicker autoClicker = new AutoClicker();
         KeyboardHook keyboardHook;
 
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
+        static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
+
 
         public Form1()
         {
@@ -26,7 +30,8 @@ namespace AutoClicker
             this.Status.Text = "Status: Off";
 
             // Load settings
-            LoadSettings();
+            LoadSetting();
+
 
             this.textBox1.Text = clickInterval.ToString();
             this.HotKey_Select.Text = HotKey;
@@ -40,37 +45,14 @@ namespace AutoClicker
             keyboardHook.Start();
         }
 
-        private void LoadSettings()
+        private void LoadSetting()
         {
-            if (!File.Exists(FileName))
-            {
-                using (File.Create(FileName)) { }
-            }
 
             try
             {
-                var configFile = Configuration.LoadFromFile(FileName);
-                var section = configFile["Settings"];
+               this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
+               this.HotKey = (string)LoadSettings("HotKey", typeof(string));
 
-                if (section.Contains("ClickInterval"))
-                {
-                    clickInterval = section["ClickInterval"].IntValue;
-                }
-                else
-                {
-                    section["ClickInterval"].IntValue = clickInterval;
-                }
-
-                if (section.Contains("HotKey"))
-                {
-                    HotKey = section["HotKey"].StringValue;
-                }
-                else
-                {
-                    section["HotKey"].StringValue = HotKey;
-                }
-
-                configFile.SaveToFile(FileName);
             }
             catch (Exception ex)
             {
@@ -117,13 +99,13 @@ namespace AutoClicker
             }
         }
 
-        private void StartClicking()
+        private async void StartClicking()
         {
             if (!isClicking)
             {
                 isClicking = true;
                 this.Status.Text = "Status: On";
-                autoClicker.StartClick(clickInterval);
+                await autoClicker.StartClick(clickInterval);
             }
         }
 
