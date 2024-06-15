@@ -13,9 +13,12 @@ namespace AutoClicker
         const int MOUSEEVENTF_LEFTDOWN = 0x0002; // Mouse left button down
         const int MOUSEEVENTF_LEFTUP = 0x0004;   // Mouse left button up
 
+        const int MOUSEEVENTF_RIGHTDOWN = 0x0008; // Mouse right button down
+        const int MOUSEEVENTF_RIGHTUP = 0x0010;   // Mouse right button up
+
         private CancellationTokenSource cancellationTokenSource;
 
-        public async Task StartClick(int clickInterval)
+        public async Task StartClick(int clickInterval, object ButtonType)
         {
             if (cancellationTokenSource != null)
             {
@@ -31,8 +34,15 @@ namespace AutoClicker
                 {
                     while (!token.IsCancellationRequested)
                     {
-                        mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-                        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                        if (ButtonType.ToString() == "LeftButton")
+                        {
+                            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                        } else if (ButtonType.ToString() == "RightButton")
+                        {
+                            mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+                            mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+                        }
 
                         await Task.Delay(clickInterval, token);
                     }

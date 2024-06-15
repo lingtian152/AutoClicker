@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.IO;
 using SharpConfig;
 
@@ -12,6 +11,7 @@ namespace AutoClicker
             Configuration config = new Configuration();
             config["Settings"]["ClickInterval"].IntValue = 100;
             config["Settings"]["HotKey"].StringValue = "F1";
+            config["Settings"]["Button"].StringValue = "LeftButton";
             config.SaveToFile(FileName);
         }
 

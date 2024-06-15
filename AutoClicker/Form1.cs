@@ -15,6 +15,7 @@ namespace AutoClicker
         static string FileName = "settings.ini";
         private int clickInterval = 100; // set the click interval
         private string HotKey = "F1"; // set the hotkey
+        private string ButtonType = "LeftButton"; // set the button type
         private bool isClicking;
 
         AutoClicker autoClicker = new AutoClicker();
@@ -52,7 +53,7 @@ namespace AutoClicker
             {
                this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
                this.HotKey = (string)LoadSettings("HotKey", typeof(string));
-
+                this.ButtonType = (string)LoadSettings("Button", typeof(string));
             }
             catch (Exception ex)
             {
@@ -84,6 +85,18 @@ namespace AutoClicker
             SaveSettings("HotKey", HotKey);
         }
 
+        private void LeftButton_Select_CheckedChanged(object sender, EventArgs e)
+        {
+            this.ButtonType = "LeftButton";
+            SaveSettings("Button", ButtonType);
+        }
+
+        private void RightButton_Select_CheckedChanged(object sender, EventArgs e)
+        {
+            this.ButtonType = "RightButton";
+            SaveSettings("Button", ButtonType);
+        }
+
         private void Hook_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode.ToString() == HotKey)
@@ -105,7 +118,7 @@ namespace AutoClicker
             {
                 isClicking = true;
                 this.Status.Text = "Status: On";
-                await autoClicker.StartClick(clickInterval);
+                await autoClicker.StartClick(clickInterval, ButtonType);
             }
         }
 

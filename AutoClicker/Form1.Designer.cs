@@ -33,6 +33,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.HotKey_Select = new System.Windows.Forms.ComboBox();
             this.Status = new System.Windows.Forms.Label();
+            this.LeftButton_Select = new System.Windows.Forms.RadioButton();
+            this.RightButton_Select = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // Cooldown_Label
@@ -95,17 +97,45 @@
             this.Status.AutoSize = true;
             this.Status.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Status.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Status.Location = new System.Drawing.Point(107, 203);
+            this.Status.Location = new System.Drawing.Point(107, 261);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(253, 30);
             this.Status.TabIndex = 6;
             this.Status.Text = "Status: {Status}";
+            // 
+            // LeftButton_Select
+            // 
+            this.LeftButton_Select.AutoSize = true;
+            this.LeftButton_Select.Font = new System.Drawing.Font("宋体", 14F);
+            this.LeftButton_Select.Location = new System.Drawing.Point(81, 192);
+            this.LeftButton_Select.Name = "LeftButton_Select";
+            this.LeftButton_Select.Size = new System.Drawing.Size(163, 28);
+            this.LeftButton_Select.TabIndex = 7;
+            this.LeftButton_Select.TabStop = true;
+            this.LeftButton_Select.Text = "Left Button";
+            this.LeftButton_Select.UseVisualStyleBackColor = true;
+            this.LeftButton_Select.CheckedChanged += new System.EventHandler(this.LeftButton_Select_CheckedChanged);
+            // 
+            // RightButton_Select
+            // 
+            this.RightButton_Select.AutoSize = true;
+            this.RightButton_Select.Font = new System.Drawing.Font("宋体", 14F);
+            this.RightButton_Select.Location = new System.Drawing.Point(270, 192);
+            this.RightButton_Select.Name = "RightButton_Select";
+            this.RightButton_Select.Size = new System.Drawing.Size(175, 28);
+            this.RightButton_Select.TabIndex = 8;
+            this.RightButton_Select.TabStop = true;
+            this.RightButton_Select.Text = "Right Button";
+            this.RightButton_Select.UseVisualStyleBackColor = true;
+            this.RightButton_Select.CheckedChanged += new System.EventHandler(this.RightButton_Select_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 351);
+            this.Controls.Add(this.RightButton_Select);
+            this.Controls.Add(this.LeftButton_Select);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.HotKey_Select);
             this.Controls.Add(this.textBox1);
@@ -128,6 +158,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ComboBox HotKey_Select;
         private System.Windows.Forms.Label Status;
+        private System.Windows.Forms.RadioButton LeftButton_Select;
+        private System.Windows.Forms.RadioButton RightButton_Select;
     }
 }
 
