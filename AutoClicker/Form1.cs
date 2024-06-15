@@ -13,8 +13,8 @@ namespace AutoClicker
     {
 
         static string FileName = "settings.ini";
-        private int clickInterval; // set the click interval
-        private string HotKey; // set the hotkey
+        private int clickInterval = 100; // set the click interval
+        private string HotKey = "F1"; // set the hotkey
         private bool isClicking;
 
         AutoClicker autoClicker = new AutoClicker();
@@ -66,7 +66,7 @@ namespace AutoClicker
             {
                 MessageBox.Show("Please enter a valid number");
                 return;
-            } else if (clickInterval <= 0 || this.textBox1.Text == "0")
+            } else if (clickInterval <= 0)
             {
                 MessageBox.Show("Please enter a number greater than 0");
                 this.textBox1.Text = "100";
