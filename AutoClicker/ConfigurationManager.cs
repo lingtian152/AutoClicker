@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
 using SharpConfig;
 
@@ -6,12 +7,28 @@ namespace AutoClicker
 {
     class ConfigurationManager
     {
+        private static void initConfig(string FileName)
+        {
+            Configuration config = new Configuration();
+            config["Settings"]["ClickInterval"].IntValue = 100;
+            config["Settings"]["HotKey"].StringValue = "F1";
+            config.SaveToFile(FileName);
+        }
+
+        private static void CreateFile(string FileName)
+        {
+            if (!File.Exists(FileName))
+            {
+                using (File.Create(FileName))
+                {
+                    initConfig(FileName);
+                }
+            }
+        }
+
         public static void SaveSettings(string fileName, string key, object value)
         {
-            if (!File.Exists(fileName))
-            {
-                File.Create(fileName).Close();
-            }
+            CreateFile(fileName);
 
             var configFile = Configuration.LoadFromFile(fileName);
             var section = configFile["Settings"];
@@ -34,10 +51,7 @@ namespace AutoClicker
 
         public static object LoadSettings(string fileName, string key, Type valueType)
         {
-            if (!File.Exists(fileName))
-            {
-                throw new FileNotFoundException($"The file {fileName} does not exist.");
-            }
+            CreateFile(fileName);
 
             var configFile = Configuration.LoadFromFile(fileName);
             var section = configFile["Settings"];
