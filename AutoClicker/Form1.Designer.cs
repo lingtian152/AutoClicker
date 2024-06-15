@@ -30,7 +30,7 @@
         {
             this.Cooldown_Label = new System.Windows.Forms.Label();
             this.HotKey_Label = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Cooldown_Box = new System.Windows.Forms.TextBox();
             this.HotKey_Select = new System.Windows.Forms.ComboBox();
             this.Status = new System.Windows.Forms.Label();
             this.LeftButton_Select = new System.Windows.Forms.RadioButton();
@@ -59,15 +59,15 @@
             this.HotKey_Label.Text = "Hot Key\r\n";
             this.HotKey_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // Cooldown_Box
             // 
-            this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBox1.Font = new System.Drawing.Font("宋体", 15F);
-            this.textBox1.Location = new System.Drawing.Point(218, 49);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(177, 36);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.TextChanged += new System.EventHandler(this.Cooldown_Changed);
+            this.Cooldown_Box.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.Cooldown_Box.Font = new System.Drawing.Font("宋体", 15F);
+            this.Cooldown_Box.Location = new System.Drawing.Point(218, 49);
+            this.Cooldown_Box.Name = "Cooldown_Box";
+            this.Cooldown_Box.Size = new System.Drawing.Size(177, 36);
+            this.Cooldown_Box.TabIndex = 2;
+            this.Cooldown_Box.TextChanged += new System.EventHandler(this.Cooldown_Changed);
             // 
             // HotKey_Select
             // 
@@ -138,7 +138,7 @@
             this.Controls.Add(this.LeftButton_Select);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.HotKey_Select);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Cooldown_Box);
             this.Controls.Add(this.HotKey_Label);
             this.Controls.Add(this.Cooldown_Label);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -155,7 +155,7 @@
 
         private System.Windows.Forms.Label Cooldown_Label;
         private System.Windows.Forms.Label HotKey_Label;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Cooldown_Box;
         private System.Windows.Forms.ComboBox HotKey_Select;
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.RadioButton LeftButton_Select;

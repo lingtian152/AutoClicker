@@ -10,6 +10,7 @@ namespace AutoClicker
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
+        // Mouse actions
         const int MOUSEEVENTF_LEFTDOWN = 0x0002; // Mouse left button down
         const int MOUSEEVENTF_LEFTUP = 0x0004;   // Mouse left button up
 

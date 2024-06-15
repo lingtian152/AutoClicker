@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing.Printing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using SharpConfig;
 
@@ -30,20 +31,28 @@ namespace AutoClicker
             InitializeComponent();
             this.Status.Text = "Status: Off";
 
-            // Load settings
-            LoadSetting();
-
-
-            this.textBox1.Text = clickInterval.ToString();
-            this.HotKey_Select.Text = HotKey;
-
-            this.textBox1.TextChanged += new EventHandler(Cooldown_Changed);
+            this.Cooldown_Box.TextChanged += new EventHandler(Cooldown_Changed);
             this.HotKey_Select.SelectedIndexChanged += new EventHandler(HotkeySelec_Changed);
 
             // Initialize and start the keyboard hook
             keyboardHook = new KeyboardHook();
             keyboardHook.KeyDownEvent += new KeyEventHandler(Hook_KeyDown);
             keyboardHook.Start();
+
+            // Load settings
+            LoadSetting();
+
+            this.Cooldown_Box.Text = clickInterval.ToString();
+            this.HotKey_Select.Text = HotKey;
+
+            if (ButtonType == "LeftButton")
+            {
+                this.LeftButton_Select.Checked = true;
+            }
+            else if (ButtonType == "RightButton")
+            {
+                this.RightButton_Select.Checked = true;
+            }
         }
 
         private void LoadSetting()
@@ -53,7 +62,8 @@ namespace AutoClicker
             {
                this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
                this.HotKey = (string)LoadSettings("HotKey", typeof(string));
-                this.ButtonType = (string)LoadSettings("Button", typeof(string));
+               this.ButtonType = (string)LoadSettings("Button", typeof(string));
+
             }
             catch (Exception ex)
             {
@@ -63,14 +73,16 @@ namespace AutoClicker
 
         private void Cooldown_Changed(object sender, EventArgs e)
         {
-            if (!int.TryParse(this.textBox1.Text, out int interval))
+            if (!int.TryParse(this.Cooldown_Box.Text, out int interval))
             {
                 MessageBox.Show("Please enter a valid number");
+                this.Cooldown_Box.Text = "100";
+                clickInterval = 100;
                 return;
             } else if (clickInterval <= 0)
             {
                 MessageBox.Show("Please enter a number greater than 0");
-                this.textBox1.Text = "100";
+                this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
             }
@@ -93,6 +105,7 @@ namespace AutoClicker
 
         private void RightButton_Select_CheckedChanged(object sender, EventArgs e)
         {
+            MessageBox.Show("If CoolDown to low, it may lagged your computer");
             this.ButtonType = "RightButton";
             SaveSettings("Button", ButtonType);
         }
