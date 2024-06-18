@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace AutoClicker
 {
-    public partial class Form1 : Form
+    public partial class Autoclick_form : Form
     {
         static string FileName = "settings.ini";
         private int clickInterval = 100;
@@ -20,7 +20,7 @@ namespace AutoClicker
         static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
 
 
-        public Form1()
+        public Autoclick_form()
         {
             InitializeComponent();
 
@@ -50,11 +50,6 @@ namespace AutoClicker
 
         private void LoadSetting()
         {
-            
-            Form_Alert alert= new Form_Alert();
-
-            alert.ShowAlert("Loading Settings", AlertType.Success);
-
             try
             {
                 this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));

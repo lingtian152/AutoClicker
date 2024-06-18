@@ -1,6 +1,6 @@
 ﻿namespace AutoClicker
 {
-    partial class Form1
+    partial class Autoclick_form
     {
         /// <summary>
         /// 必需的设计器变量。
