@@ -6,24 +6,22 @@ namespace AutoClicker
 {
     class ConfigurationManager
     {
-        private static void initConfig(string FileName)
+        private static void CreateFile(string fileName)
         {
-            Configuration config = new Configuration();
+            // 创建文件
+            if (!File.Exists(fileName))
+            {
+                var config = new Configuration();
+                InitConfig(config);
+                config.SaveToFile(fileName);
+            }
+        }
+
+        private static void InitConfig(Configuration config)
+        {
             config["Settings"]["ClickInterval"].IntValue = 100;
             config["Settings"]["HotKey"].StringValue = "F1";
             config["Settings"]["Button"].StringValue = "LeftButton";
-            config.SaveToFile(FileName);
-        }
-
-        private static void CreateFile(string FileName)
-        {
-            if (!File.Exists(FileName))
-            {
-                using (File.Create(FileName))
-                {
-                    initConfig(FileName);
-                }
-            }
         }
 
         public static void SaveSettings(string fileName, string key, object value)
@@ -64,12 +62,14 @@ namespace AutoClicker
             {
                 return section[key].IntValue;
             }
+            else if (valueType == typeof(bool))
+            {
+                return section[key].BoolValue;
+            }
             else
             {
-                throw new ArgumentException("Unsupported value type", nameof(valueType));
+                return null;
             }
         }
-
-
     }
 }
