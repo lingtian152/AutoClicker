@@ -1,22 +1,16 @@
-﻿using System;
-using System.Drawing.Printing;
+﻿using CustomAlertBoxDemo;
+using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
-using SharpConfig;
-
-
 
 namespace AutoClicker
 {
-
     public partial class Form1 : Form
     {
-
         static string FileName = "settings.ini";
-        private int clickInterval = 100; // set the click interval
-        private string HotKey = "F1"; // set the hotkey
-        private string ButtonType = "LeftButton"; // set the button type
+        private int clickInterval = 100;
+        private string HotKey = "F1";
+        private string ButtonType = "LeftButton";
         private bool isClicking;
 
         AutoClicker autoClicker = new AutoClicker();
@@ -29,17 +23,16 @@ namespace AutoClicker
         public Form1()
         {
             InitializeComponent();
+
             this.Status.Text = "Status: Off";
 
             this.Cooldown_Box.TextChanged += new EventHandler(Cooldown_Changed);
             this.HotKey_Select.SelectedIndexChanged += new EventHandler(HotkeySelec_Changed);
 
-            // Initialize and start the keyboard hook
             keyboardHook = new KeyboardHook();
             keyboardHook.KeyDownEvent += new KeyEventHandler(Hook_KeyDown);
             keyboardHook.Start();
 
-            // Load settings
             LoadSetting();
 
             this.Cooldown_Box.Text = clickInterval.ToString();
@@ -57,13 +50,16 @@ namespace AutoClicker
 
         private void LoadSetting()
         {
+            
+            Form_Alert alert= new Form_Alert();
+
+            alert.ShowAlert("Loading Settings", AlertType.Success);
 
             try
             {
-               this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
-               this.HotKey = (string)LoadSettings("HotKey", typeof(string));
-               this.ButtonType = (string)LoadSettings("Button", typeof(string));
-
+                this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
+                this.HotKey = (string)LoadSettings("HotKey", typeof(string));
+                this.ButtonType = (string)LoadSettings("Button", typeof(string));
             }
             catch (Exception ex)
             {
@@ -79,7 +75,8 @@ namespace AutoClicker
                 this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
-            } else if (clickInterval <= 0)
+            }
+            else if (interval <= 0)
             {
                 MessageBox.Show("Please enter a number greater than 0");
                 this.Cooldown_Box.Text = "100";
@@ -105,7 +102,7 @@ namespace AutoClicker
 
         private void RightButton_Select_CheckedChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("If CoolDown to low, it may lagged your computer");
+            MessageBox.Show("If CoolDown is too low, it may lag your computer");
             this.ButtonType = "RightButton";
             SaveSettings("Button", ButtonType);
         }

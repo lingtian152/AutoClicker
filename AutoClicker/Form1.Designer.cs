@@ -142,6 +142,7 @@
             this.Controls.Add(this.HotKey_Label);
             this.Controls.Add(this.Cooldown_Label);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
