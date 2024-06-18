@@ -1,5 +1,4 @@
-﻿using CustomAlertBoxDemo;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -7,19 +6,30 @@ namespace AutoClicker
 {
     public partial class Autoclick_form : Form
     {
+        // 程序配置
         static string FileName = "settings.ini";
         private int clickInterval = 100;
         private string HotKey = "F1";
         private string ButtonType = "LeftButton";
         private bool isClicking;
 
+        // 实例化类
         AutoClicker autoClicker = new AutoClicker();
         KeyboardHook keyboardHook;
 
+        // 保存和加载设置
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
         static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
 
+        // 拖动窗体
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
 
+        // 构造函数
         public Autoclick_form()
         {
             InitializeComponent();
@@ -50,6 +60,10 @@ namespace AutoClicker
 
         private void LoadSetting()
         {
+
+            Form_notification form_Nocation = new Form_notification();
+            form_Nocation.ShowAlert("Settings loaded", AlertType.Info);
+
             try
             {
                 this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
@@ -142,6 +156,27 @@ namespace AutoClicker
             keyboardHook?.Stop();
             autoClicker.StopClick();
             base.OnFormClosing(e);
+        }
+
+        private void Close_button_Click(object sender, EventArgs e)
+        {
+            // Close the form
+            this.Close();
+        }
+
+        private void minize_button_Click(object sender, EventArgs e)
+        {
+            // Minimize the form
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void Autoclick_form_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
         }
     }
 }
