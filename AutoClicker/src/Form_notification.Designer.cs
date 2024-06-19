@@ -1,6 +1,6 @@
 ﻿namespace AutoClicker
 {
-    partial class Form_notification
+    partial class Form_Alert
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblMsg;
@@ -16,9 +16,11 @@
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblMsg = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.image_panel = new System.Windows.Forms.Panel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // lblMsg
@@ -48,7 +50,7 @@
             this.image_panel.Size = new System.Drawing.Size(90, 77);
             this.image_panel.TabIndex = 3;
             // 
-            // Form_notification
+            // Form_Alert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -58,16 +60,17 @@
             this.Controls.Add(this.lblMsg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "Form_notification";
+            this.Name = "Form_Alert";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form_Alert";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.Form_Alert_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel image_panel;
+        private System.Windows.Forms.Timer timer1;
     }
 }
