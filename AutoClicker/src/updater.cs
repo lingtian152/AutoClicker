@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -21,11 +20,6 @@ namespace AutoClicker
             InitializeComponent();
             ShowInTaskbar = false;
             WindowState = FormWindowState.Minimized;
-            /*if (!IsRunningAsAdministrator())
-            {
-                RequestAdminPrivileges();
-                return; // Wait until elevated privileges are granted
-            }*/
         }
 
         private void Updater_Load(object sender, EventArgs e)
@@ -152,32 +146,6 @@ namespace AutoClicker
                 MessageBox.Show("Clean-up error: " + ex.Message, "Clean-up Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-        }
-
-
-        private bool IsRunningAsAdministrator()
-        {
-            var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
-            var principal = new System.Security.Principal.WindowsPrincipal(identity);
-            return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
-        }
-
-        private void RequestAdminPrivileges()
-        {
-            try
-            {
-                // Launch itself as administrator
-                var processInfo = new ProcessStartInfo(Assembly.GetEntryAssembly().CodeBase)
-                {
-                    UseShellExecute = true,
-                    Verb = "runas"
-                };
-                Process.Start(processInfo);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to request admin privileges: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
     }
 }
