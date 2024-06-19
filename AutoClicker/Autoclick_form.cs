@@ -17,6 +17,7 @@ namespace AutoClicker
         AutoClicker autoClicker = new AutoClicker();
         KeyboardHook keyboardHook;
 
+
         // 保存和加载设置
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
         static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
@@ -29,8 +30,10 @@ namespace AutoClicker
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        // 构造函数
-        public Autoclick_form()
+        Form_Alert form_Alert = new Form_Alert();
+
+    // 构造函数
+    public Autoclick_form()
         {
             InitializeComponent();
 
@@ -61,18 +64,18 @@ namespace AutoClicker
         private void LoadSetting()
         {
 
-            Form_notification form_Nocation = new Form_notification();
-            form_Nocation.ShowAlert("Settings loaded", AlertType.Info);
+            form_Alert.ShowNotice("Settings loading", MsgType.Success);
 
             try
             {
                 this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
                 this.HotKey = (string)LoadSettings("HotKey", typeof(string));
                 this.ButtonType = (string)LoadSettings("Button", typeof(string));
+                form_Alert.ShowNotice("Settings loaded", MsgType.Success);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load settings: {ex.Message}");
+                form_Alert.ShowNotice("Failed to load settings", MsgType.Error);
             }
         }
 
@@ -80,14 +83,14 @@ namespace AutoClicker
         {
             if (!int.TryParse(this.Cooldown_Box.Text, out int interval))
             {
-                MessageBox.Show("Please enter a valid number");
+                form_Alert.ShowNotice("Please enter a number", MsgType.Error);
                 this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
             }
             else if (interval <= 0)
             {
-                MessageBox.Show("Please enter a number greater than 0");
+                form_Alert.ShowNotice("Please enter a number greater than 0", MsgType.Error);
                 this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
@@ -111,7 +114,7 @@ namespace AutoClicker
 
         private void RightButton_Select_CheckedChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("If CoolDown is too low, it may lag your computer");
+            form_Alert.ShowNotice("Right button selected", MsgType.Success);
             this.ButtonType = "RightButton";
             SaveSettings("Button", ButtonType);
         }
@@ -133,22 +136,18 @@ namespace AutoClicker
 
         private async void StartClicking()
         {
-            if (!isClicking)
-            {
-                isClicking = true;
-                this.Status.Text = "Status: On";
-                await autoClicker.StartClick(clickInterval, ButtonType);
-            }
+            isClicking = true;
+            this.Status.Text = "Status: On";
+            form_Alert.ShowNotice("AutoClicker is started", MsgType.Success);
+            await autoClicker.StartClick(clickInterval, ButtonType);
         }
 
         private void StopClicking()
         {
-            if (isClicking)
-            {
-                isClicking = false;
-                this.Status.Text = "Status: Off";
-                autoClicker.StopClick();
-            }
+            isClicking = false;
+            this.Status.Text = "Status: Off";
+            form_Alert.ShowNotice("AutoClicker is stopped", MsgType.Warning);
+            autoClicker.StopClick();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -170,7 +169,7 @@ namespace AutoClicker
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void Autoclick_form_MouseDown(object sender, MouseEventArgs e)
+        private void Autoclick_form_MouseDown(object sender, MouseEventArgs e) // 拖动窗体
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -178,5 +177,31 @@ namespace AutoClicker
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
+
+        private void setting_button_click(object sender, EventArgs e)
+        {
+            setting setting = new setting();
+            setting.Show();
+        }
+
+        private void Autoclick_form_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                // 获取当前目录中所有 .PendingOverwrite 扩展名的文件
+                string[] pendingOverwriteFiles = Directory.GetFiles("./", "*.PendingOverwrite");
+
+                foreach (string file in pendingOverwriteFiles)
+                {
+                    // 移动到回收站而不是直接删除
+                    File.Delete(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to delete pending overwrite file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
