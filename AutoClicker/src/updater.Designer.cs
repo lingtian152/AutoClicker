@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(498, 290);
             this.Name = "Updater";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Installer";
             this.Load += new System.EventHandler(this.Updater_Load);
             this.ResumeLayout(false);

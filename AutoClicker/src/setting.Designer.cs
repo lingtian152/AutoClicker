@@ -65,6 +65,7 @@
             this.Controls.Add(this.close_button);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "setting";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "setting";
             this.ResumeLayout(false);
 
