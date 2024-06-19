@@ -37,13 +37,14 @@
             this.RightButton_Select = new System.Windows.Forms.RadioButton();
             this.Close_button = new System.Windows.Forms.Button();
             this.minize_button = new System.Windows.Forms.Button();
+            this.setting_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Cooldown_Label
             // 
             this.Cooldown_Label.AutoSize = true;
             this.Cooldown_Label.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Cooldown_Label.Location = new System.Drawing.Point(57, 46);
+            this.Cooldown_Label.Location = new System.Drawing.Point(59, 75);
             this.Cooldown_Label.Name = "Cooldown_Label";
             this.Cooldown_Label.Size = new System.Drawing.Size(124, 28);
             this.Cooldown_Label.TabIndex = 0;
@@ -54,7 +55,7 @@
             // 
             this.HotKey_Label.AutoSize = true;
             this.HotKey_Label.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.HotKey_Label.Location = new System.Drawing.Point(57, 129);
+            this.HotKey_Label.Location = new System.Drawing.Point(59, 158);
             this.HotKey_Label.Name = "HotKey_Label";
             this.HotKey_Label.Size = new System.Drawing.Size(110, 28);
             this.HotKey_Label.TabIndex = 1;
@@ -65,7 +66,7 @@
             // 
             this.Cooldown_Box.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.Cooldown_Box.Font = new System.Drawing.Font("宋体", 15F);
-            this.Cooldown_Box.Location = new System.Drawing.Point(199, 49);
+            this.Cooldown_Box.Location = new System.Drawing.Point(201, 78);
             this.Cooldown_Box.Name = "Cooldown_Box";
             this.Cooldown_Box.Size = new System.Drawing.Size(177, 36);
             this.Cooldown_Box.TabIndex = 2;
@@ -87,7 +88,7 @@
             "F8",
             "F9",
             "F10"});
-            this.HotKey_Select.Location = new System.Drawing.Point(199, 129);
+            this.HotKey_Select.Location = new System.Drawing.Point(201, 158);
             this.HotKey_Select.Name = "HotKey_Select";
             this.HotKey_Select.Size = new System.Drawing.Size(177, 33);
             this.HotKey_Select.TabIndex = 4;
@@ -99,7 +100,7 @@
             this.Status.AutoSize = true;
             this.Status.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Status.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Status.Location = new System.Drawing.Point(104, 274);
+            this.Status.Location = new System.Drawing.Point(106, 303);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(253, 30);
             this.Status.TabIndex = 6;
@@ -109,7 +110,7 @@
             // 
             this.LeftButton_Select.AutoSize = true;
             this.LeftButton_Select.Font = new System.Drawing.Font("宋体", 14F);
-            this.LeftButton_Select.Location = new System.Drawing.Point(45, 208);
+            this.LeftButton_Select.Location = new System.Drawing.Point(47, 237);
             this.LeftButton_Select.Name = "LeftButton_Select";
             this.LeftButton_Select.Size = new System.Drawing.Size(163, 28);
             this.LeftButton_Select.TabIndex = 7;
@@ -122,7 +123,7 @@
             // 
             this.RightButton_Select.AutoSize = true;
             this.RightButton_Select.Font = new System.Drawing.Font("宋体", 14F);
-            this.RightButton_Select.Location = new System.Drawing.Point(238, 208);
+            this.RightButton_Select.Location = new System.Drawing.Point(240, 237);
             this.RightButton_Select.Name = "RightButton_Select";
             this.RightButton_Select.Size = new System.Drawing.Size(175, 28);
             this.RightButton_Select.TabIndex = 8;
@@ -161,12 +162,26 @@
             this.minize_button.UseVisualStyleBackColor = false;
             this.minize_button.Click += new System.EventHandler(this.minize_button_Click);
             // 
+            // setting_button
+            // 
+            this.setting_button.BackgroundImage = global::AutoClicker.Properties.Resources.setting;
+            this.setting_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.setting_button.FlatAppearance.BorderSize = 0;
+            this.setting_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setting_button.Location = new System.Drawing.Point(388, 13);
+            this.setting_button.Name = "setting_button";
+            this.setting_button.Size = new System.Drawing.Size(36, 34);
+            this.setting_button.TabIndex = 11;
+            this.setting_button.UseVisualStyleBackColor = true;
+            this.setting_button.Click += new System.EventHandler(this.setting_button_click);
+            // 
             // Autoclick_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(524, 330);
+            this.ClientSize = new System.Drawing.Size(524, 352);
+            this.Controls.Add(this.setting_button);
             this.Controls.Add(this.minize_button);
             this.Controls.Add(this.Close_button);
             this.Controls.Add(this.RightButton_Select);
@@ -182,6 +197,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Auto Clicker";
+            this.Load += new System.EventHandler(this.Autoclick_form_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Autoclick_form_MouseDown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -199,6 +215,7 @@
         private System.Windows.Forms.RadioButton RightButton_Select;
         private System.Windows.Forms.Button Close_button;
         private System.Windows.Forms.Button minize_button;
+        private System.Windows.Forms.Button setting_button;
     }
 }
 
