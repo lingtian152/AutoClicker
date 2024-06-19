@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SharpConfig;
+using System;
 using System.IO;
-using SharpConfig;
 
 namespace AutoClicker
 {
