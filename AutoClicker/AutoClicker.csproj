@@ -33,12 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetZip, Version=1.16.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.16.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="SharpConfig, Version=3.2.9.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpConfig.3.2.9.1\lib\net461\SharpConfig.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,10 +57,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form_notification.cs">
+    <Compile Include="src\updater.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_notification.Designer.cs">
+    <Compile Include="src\updater.Designer.cs">
+      <DependentUpon>updater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\setting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\setting.Designer.cs">
+      <DependentUpon>setting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Form_notification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Form_notification.Designer.cs">
       <DependentUpon>Form_notification.cs</DependentUpon>
     </Compile>
     <Compile Include="AutoClicker.cs" />
@@ -67,7 +86,13 @@
     <Compile Include="KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form_notification.resx">
+    <EmbeddedResource Include="src\updater.resx">
+      <DependentUpon>updater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\setting.resx">
+      <DependentUpon>setting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Form_notification.resx">
       <DependentUpon>Form_notification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Autoclick_form.resx">
@@ -97,7 +122,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="src\Resources\setting.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="src\Resources\error.png" />
   </ItemGroup>
