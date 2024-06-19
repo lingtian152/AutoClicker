@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
-using Ionic.Zip;
 using System.Net;
-using System.Threading;
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace Installer
 {
@@ -18,7 +17,6 @@ namespace Installer
         public Installer()
         {
             InitializeComponent();
-            //CheckAndDeletePendingOverwriteFiles();
         }
 
         private void close_button_click(object sender, EventArgs e)
@@ -55,7 +53,6 @@ namespace Installer
 
         private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
         {
-            // Update your progress bar here
             progressBar1.Value = e.ProgressPercentage;
         }
 
@@ -86,9 +83,47 @@ namespace Installer
 
         private void ExtractFiles(string zipFilePath, string extractPath)
         {
-            using (ZipFile zip = ZipFile.Read(zipFilePath))
+            try
             {
-                zip.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
+                if (!Directory.Exists(extractPath))
+                {
+                    Directory.CreateDirectory(extractPath);
+                }
+
+                using (ZipArchive archive = ZipFile.OpenRead(zipFilePath))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        // Construct the full path for the extracted file
+                        string destinationPath = Path.Combine(extractPath, entry.FullName);
+
+                        // Ensure the directory for the extracted file exists
+                        string destinationDir = Path.GetDirectoryName(destinationPath);
+                        if (!Directory.Exists(destinationDir))
+                        {
+                            Directory.CreateDirectory(destinationDir);
+                        }
+
+                        // Extract the file
+                        if (entry.Name == "")
+                        {
+                            // Entry is a directory
+                            if (!Directory.Exists(destinationPath))
+                            {
+                                Directory.CreateDirectory(destinationPath);
+                            }
+                        }
+                        else
+                        {
+                            // Entry is a file
+                            entry.ExtractToFile(destinationPath, overwrite: true);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Extraction error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -96,7 +131,8 @@ namespace Installer
         {
             try
             {
-                string filename = Path.Combine(".\\AutoClicker.exe");
+                // 启动解压后的主程序
+                string filename = currentPath + "\\AutoClicker.exe";
                 if (File.Exists(filename))
                 {
                     Process.Start(filename);
@@ -105,10 +141,10 @@ namespace Installer
             catch (Exception ex)
             {
                 MessageBox.Show("Cleanup error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } finally
+            }
+            finally
             {
-
-               Application.Exit();
+                Application.Exit();
             }
         }
     }
