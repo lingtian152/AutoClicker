@@ -41,7 +41,8 @@ namespace AutoClicker
                         {
                             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
                             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-                        } else if (ButtonType.ToString() == "RightButton")
+                        }
+                        else if (ButtonType.ToString() == "RightButton")
                         {
                             mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
                             mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
