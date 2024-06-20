@@ -48,9 +48,9 @@
             // update_button
             // 
             this.update_button.Font = new System.Drawing.Font("宋体", 12F);
-            this.update_button.Location = new System.Drawing.Point(118, 177);
+            this.update_button.Location = new System.Drawing.Point(93, 151);
             this.update_button.Name = "update_button";
-            this.update_button.Size = new System.Drawing.Size(182, 34);
+            this.update_button.Size = new System.Drawing.Size(223, 34);
             this.update_button.TabIndex = 2;
             this.update_button.Text = "Check For Update";
             this.update_button.UseVisualStyleBackColor = true;

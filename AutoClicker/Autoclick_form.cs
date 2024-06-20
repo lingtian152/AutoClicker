@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoClicker.Properties;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -30,7 +31,6 @@ namespace AutoClicker
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        Form_Alert form_Alert = new Form_Alert();
 
     // 构造函数
     public Autoclick_form()
@@ -64,18 +64,18 @@ namespace AutoClicker
         private void LoadSetting()
         {
 
-            form_Alert.ShowNotice("Settings loading", MsgType.Success);
+            Form_Alert.ShowNotice("Loading settings", MsgType.Info);
 
             try
             {
                 this.clickInterval = (int)LoadSettings("ClickInterval", typeof(int));
                 this.HotKey = (string)LoadSettings("HotKey", typeof(string));
                 this.ButtonType = (string)LoadSettings("Button", typeof(string));
-                form_Alert.ShowNotice("Settings loaded", MsgType.Success);
+                Form_Alert.ShowNotice("Settings loaded", MsgType.Success);
             }
             catch (Exception ex)
             {
-                form_Alert.ShowNotice("Failed to load settings", MsgType.Error);
+                Form_Alert.ShowNotice("Failed to load settings", MsgType.Error);
             }
         }
 
@@ -83,14 +83,14 @@ namespace AutoClicker
         {
             if (!int.TryParse(this.Cooldown_Box.Text, out int interval))
             {
-                form_Alert.ShowNotice("Please enter a number", MsgType.Error);
+                Form_Alert.ShowNotice("Please enter a number", MsgType.Error);
                 this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
             }
             else if (interval <= 0)
             {
-                form_Alert.ShowNotice("Please enter a number greater than 0", MsgType.Error);
+                Form_Alert.ShowNotice("Please enter a number greater than 0", MsgType.Error);
                 this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
@@ -108,13 +108,14 @@ namespace AutoClicker
 
         private void LeftButton_Select_CheckedChanged(object sender, EventArgs e)
         {
+            Form_Alert.ShowNotice("Left button selected", MsgType.Success);
             this.ButtonType = "LeftButton";
             SaveSettings("Button", ButtonType);
         }
 
         private void RightButton_Select_CheckedChanged(object sender, EventArgs e)
         {
-            form_Alert.ShowNotice("Right button selected", MsgType.Success);
+            Form_Alert.ShowNotice("Right button selected", MsgType.Success);
             this.ButtonType = "RightButton";
             SaveSettings("Button", ButtonType);
         }
@@ -138,7 +139,7 @@ namespace AutoClicker
         {
             isClicking = true;
             this.Status.Text = "Status: On";
-            form_Alert.ShowNotice("AutoClicker is started", MsgType.Success);
+            Form_Alert.ShowNotice("AutoClicker is started", MsgType.Success);
             await autoClicker.StartClick(clickInterval, ButtonType);
         }
 
@@ -146,7 +147,7 @@ namespace AutoClicker
         {
             isClicking = false;
             this.Status.Text = "Status: Off";
-            form_Alert.ShowNotice("AutoClicker is stopped", MsgType.Warning);
+            Form_Alert.ShowNotice("AutoClicker is stopped", MsgType.Warning);
             autoClicker.StopClick();
         }
 
@@ -185,9 +186,14 @@ namespace AutoClicker
         }
 
         private void Autoclick_form_Load(object sender, EventArgs e)
-        {
+        { 
             try
             {
+                this.version_label.Text = "V" + Resources.version; // show version on load
+
+                version_check version_Check = new version_check();
+                version_Check.GetLastVersion();
+
                 // 获取当前目录中所有 .PendingOverwrite 扩展名的文件
                 string[] pendingOverwriteFiles = Directory.GetFiles("./", "*.PendingOverwrite");
 
@@ -202,6 +208,5 @@ namespace AutoClicker
                 MessageBox.Show("Failed to delete pending overwrite file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

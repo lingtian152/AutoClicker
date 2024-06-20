@@ -1,10 +1,18 @@
 ﻿using AutoClicker.Properties;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AutoClicker
 {
+    public enum NotificationFormAction
+    {
+        start,
+        wait,
+        close
+    }
+
     public enum MsgType
     {
         Success,
@@ -16,13 +24,31 @@ namespace AutoClicker
     public partial class Form_Alert : Form
     {
         private int alertX, alertY;
+        private static int alertFormNum = Screen.PrimaryScreen.WorkingArea.Height / (75 + 5); // 75为窗体高度
+        private NotificationFormAction action = NotificationFormAction.start;
+        private static int showTime = 3000; // notification show time
 
-        public Form_Alert()
+        private static int currentAlertCount = 0; // 当前显示的通知数量
+
+        public Form_Alert(string name)
         {
             InitializeComponent();
             ShowInTaskbar = false;
             this.Load += Form_Alert_Load;
+            Name = name;
             InitializeTimer();
+        }
+
+        public static int AlertFormNum
+        {
+            get => alertFormNum;
+            set
+            {
+                if (value <= Screen.PrimaryScreen.WorkingArea.Height / (75 + 5) && value > 0)
+                {
+                    alertFormNum = value;
+                }
+            }
         }
 
         private void Form_Alert_Load(object sender, EventArgs e)
@@ -33,13 +59,47 @@ namespace AutoClicker
         private void InitializeTimer()
         {
             timer1 = new Timer();
-            timer1.Interval = 3000; // 3 seconds
+            timer1.Interval = 100; // 设置初始计时器间隔
             timer1.Tick += Timer1_Tick;
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            this.Hide();
+            switch (this.action)
+            {
+                case NotificationFormAction.wait:
+                    timer1.Interval = showTime;
+                    action = NotificationFormAction.close;
+                    break;
+                case NotificationFormAction.start:
+                    this.timer1.Interval = 100;
+                    this.Opacity += 0.1;
+                    if (this.alertX < this.Location.X)
+                    {
+                        this.Left -= 20; // 移动快点
+                    }
+                    else
+                    {
+                        if (this.Opacity == 1.0)
+                        {
+                            action = NotificationFormAction.wait;
+                        }
+                    }
+                    break;
+                case NotificationFormAction.close:
+                    timer1.Interval = 100;
+                    this.Opacity -= 0.1;
+                    this.Left -= 20;
+                    if (base.Opacity == 0.0)
+                    {
+                        timer1.Stop();
+                        base.Close();
+                        currentAlertCount--; // 减少当前显示的通知数量
+                    }
+                    break;
+            }
+            // tag记录下次执行的时间，用于后续的替换
+            timer1.Tag = DateTime.Now.AddMilliseconds(timer1.Interval);
         }
 
         private void AdjustLabelSize()
@@ -69,20 +129,30 @@ namespace AutoClicker
             int screenY = Screen.PrimaryScreen.WorkingArea.Height;
 
             alertX = screenX - this.Width - 10;
-            alertY = screenY - this.Height - 10;
+            alertY = screenY - this.Height - 10 - (this.Height + 5) * currentAlertCount;
 
             this.Location = new Point(alertX, alertY);
         }
 
-        public void ShowNotice(string msg, MsgType type)
+        public static void ShowNotice(string msg, MsgType msgType)
         {
-            AlertMessage(msg, type);
-            timer1.Start();
-        }
-
-        private void Form_Alert_Load_1(object sender, EventArgs e)
-        {
-
+            if (currentAlertCount < alertFormNum)
+            {
+                currentAlertCount++;
+                Form_Alert alert = new Form_Alert("alert" + currentAlertCount.ToString());
+                alert.AlertMessage(msg, msgType);
+            }
+            else
+            {
+                // 替换最早的通知
+                var earliestAlert = Application.OpenForms.OfType<Form_Alert>().OrderBy(f => f.timer1.Tag).FirstOrDefault();
+                if (earliestAlert != null)
+                {
+                    earliestAlert.Close();
+                    currentAlertCount--; // 减少当前显示的通知数量
+                    ShowNotice(msg, msgType); // 递归调用以显示新的通知
+                }
+            }
         }
 
         public void AlertMessage(string msg, MsgType type)
@@ -110,6 +180,20 @@ namespace AutoClicker
             lblMsg.Text = msg;
             AdjustLabelSize();
             this.Show();
+            timer1.Start();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                const int WS_EX_APPWINDOW = 0x40000;
+                const int WS_EX_TOOLWINDOW = 0x80;
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle &= (~WS_EX_APPWINDOW);    // 不显示在TaskBar
+                cp.ExStyle |= WS_EX_TOOLWINDOW;      // 不显示在Alt+Tab
+                return cp;
+            }
         }
     }
 }

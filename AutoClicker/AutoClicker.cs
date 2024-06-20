@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoClicker
 {
-    internal class AutoClicker
+    class AutoClicker
     {
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);

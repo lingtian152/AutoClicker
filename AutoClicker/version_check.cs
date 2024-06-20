@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace AutoClicker
 {
-    internal class version_check
+    class version_check
     {
 
        private string version;
@@ -15,8 +15,8 @@ namespace AutoClicker
             string url = "https://autoclick.lingtian.workers.dev";
             try
             {
-                Form_Alert form_Alert = new Form_Alert();
-                form_Alert.ShowNotice("Checking for updates...", MsgType.Info);
+                
+                Form_Alert.ShowNotice("Checking for updates...", MsgType.Info);
 
                 using (WebClient wc = new WebClient())
                 {
@@ -27,20 +27,16 @@ namespace AutoClicker
 
                     if (Resources.version != version)
                     {
-                        form_Alert.ShowNotice("New version available", MsgType.Info);
+                        Form_Alert.ShowNotice("New version available", MsgType.Info);
 
                         Updater updater = new Updater();
                         updater.Show();
-                    } else
-                    {
-                        form_Alert.ShowNotice("No new version", MsgType.Info); 
                     }
                 }
             }
             catch (Exception ex)
             {
-                Form_Alert form_Alert = new Form_Alert();
-                form_Alert.ShowNotice("Failed to check for updates", MsgType.Error);
+                Form_Alert.ShowNotice("Failed to check for updates", MsgType.Error);
             }
         }
     }

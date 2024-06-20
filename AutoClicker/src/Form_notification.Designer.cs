@@ -37,7 +37,7 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(0, -3);
+            this.panel1.Location = new System.Drawing.Point(2, 4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(10, 110);
             this.panel1.TabIndex = 2;
@@ -45,16 +45,16 @@
             // image_panel
             // 
             this.image_panel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_panel.Location = new System.Drawing.Point(17, 13);
+            this.image_panel.Location = new System.Drawing.Point(17, 16);
             this.image_panel.Name = "image_panel";
-            this.image_panel.Size = new System.Drawing.Size(90, 77);
+            this.image_panel.Size = new System.Drawing.Size(90, 88);
             this.image_panel.TabIndex = 3;
             // 
             // Form_Alert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(373, 102);
+            this.ClientSize = new System.Drawing.Size(373, 117);
             this.Controls.Add(this.image_panel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblMsg);
@@ -64,7 +64,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form_Alert";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.Form_Alert_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
