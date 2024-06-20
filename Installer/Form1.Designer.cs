@@ -31,11 +31,12 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.Installer_button = new System.Windows.Forms.Button();
             this.close_button = new System.Windows.Forms.Button();
+            this.title = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 88);
+            this.progressBar1.Location = new System.Drawing.Point(12, 105);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(357, 41);
             this.progressBar1.TabIndex = 0;
@@ -43,7 +44,7 @@
             // Installer_button
             // 
             this.Installer_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Installer_button.Location = new System.Drawing.Point(114, 159);
+            this.Installer_button.Location = new System.Drawing.Point(112, 184);
             this.Installer_button.Name = "Installer_button";
             this.Installer_button.Size = new System.Drawing.Size(145, 55);
             this.Installer_button.TabIndex = 1;
@@ -64,11 +65,23 @@
             this.close_button.UseVisualStyleBackColor = true;
             this.close_button.Click += new System.EventHandler(this.close_button_click);
             // 
+            // title
+            // 
+            this.title.AutoSize = true;
+            this.title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.title.Font = new System.Drawing.Font("宋体", 20F);
+            this.title.Location = new System.Drawing.Point(12, 15);
+            this.title.Name = "title";
+            this.title.Size = new System.Drawing.Size(168, 34);
+            this.title.TabIndex = 3;
+            this.title.Text = "Installer";
+            // 
             // Installer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(381, 270);
+            this.Controls.Add(this.title);
             this.Controls.Add(this.close_button);
             this.Controls.Add(this.Installer_button);
             this.Controls.Add(this.progressBar1);
@@ -77,6 +90,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Installer";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -85,6 +99,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button Installer_button;
         private System.Windows.Forms.Button close_button;
+        private System.Windows.Forms.Label title;
     }
 }
 
