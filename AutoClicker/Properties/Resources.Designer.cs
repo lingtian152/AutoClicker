@@ -101,6 +101,15 @@ namespace AutoClicker.Properties {
         }
         
         /// <summary>
+        ///   查找类似 1.0.0 的本地化字符串。
+        /// </summary>
+        internal static string version {
+            get {
+                return ResourceManager.GetString("version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap warning {
