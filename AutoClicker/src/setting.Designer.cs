@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.close_button = new System.Windows.Forms.Button();
-            this.update_button = new System.Windows.Forms.Button();
+            this.TopMost_Button = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // close_button
@@ -43,36 +43,41 @@
             this.close_button.TabIndex = 1;
             this.close_button.Text = "X";
             this.close_button.UseVisualStyleBackColor = true;
-            this.close_button.Click += new System.EventHandler(this.close_button_Click_1);
+            this.close_button.Click += new System.EventHandler(this.close_button_Click);
             // 
-            // update_button
+            // TopMost_Button
             // 
-            this.update_button.Font = new System.Drawing.Font("宋体", 12F);
-            this.update_button.Location = new System.Drawing.Point(93, 151);
-            this.update_button.Name = "update_button";
-            this.update_button.Size = new System.Drawing.Size(223, 34);
-            this.update_button.TabIndex = 2;
-            this.update_button.Text = "Check For Update";
-            this.update_button.UseVisualStyleBackColor = true;
-            this.update_button.Click += new System.EventHandler(this.check_for_update_click);
+            this.TopMost_Button.AutoSize = true;
+            this.TopMost_Button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.TopMost_Button.Font = new System.Drawing.Font("宋体", 17F);
+            this.TopMost_Button.Location = new System.Drawing.Point(12, 62);
+            this.TopMost_Button.Name = "TopMost_Button";
+            this.TopMost_Button.Size = new System.Drawing.Size(140, 33);
+            this.TopMost_Button.TabIndex = 3;
+            this.TopMost_Button.Text = "TopMost";
+            this.TopMost_Button.UseVisualStyleBackColor = true;
+            this.TopMost_Button.CheckedChanged += new System.EventHandler(this.TopMost_Button_CheckedChanged);
             // 
             // setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
             this.ClientSize = new System.Drawing.Size(416, 238);
-            this.Controls.Add(this.update_button);
+            this.Controls.Add(this.TopMost_Button);
             this.Controls.Add(this.close_button);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "setting";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "setting";
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.setting_MouseDown);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Button close_button;
-        private System.Windows.Forms.Button update_button;
+        private System.Windows.Forms.CheckBox TopMost_Button;
     }
 }

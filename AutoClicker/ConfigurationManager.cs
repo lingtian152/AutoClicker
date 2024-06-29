@@ -22,6 +22,7 @@ namespace AutoClicker
             config["Settings"]["ClickInterval"].IntValue = 100;
             config["Settings"]["HotKey"].StringValue = "F1";
             config["Settings"]["Button"].StringValue = "LeftButton";
+            config["Setting"]["TopMost"].BoolValue = false;
         }
 
         public static void SaveSettings(string fileName, string key, object value)
