@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
+using AutoClicker.src.Utilities;
+
+
 
 namespace AutoClicker
 {
@@ -8,15 +10,6 @@ namespace AutoClicker
     {
         static string FileName = "./settings.ini";
         private Form mainForm;
-
-
-        // 拖动窗体
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
 
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
         static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
@@ -57,8 +50,7 @@ namespace AutoClicker
         {
             if (e.Button == MouseButtons.Left)
             {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                DragForm.StartDrag(this.Handle);
             }
         }
     }

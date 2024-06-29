@@ -1,5 +1,6 @@
 ﻿using SharpConfig;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace AutoClicker
@@ -19,16 +20,36 @@ namespace AutoClicker
 
         private static void InitConfig(Configuration config)
         {
-            config["Settings"]["ClickInterval"].IntValue = 100;
-            config["Settings"]["HotKey"].StringValue = "F1";
-            config["Settings"]["Button"].StringValue = "LeftButton";
-            config["Setting"]["TopMost"].BoolValue = false;
+            // 配置项字典
+            var settings = new Dictionary<string, object>
+            {
+                { "ClickInterval", 100 }, // 点击间隔
+                { "HotKey", "F1" },       // 热键
+                { "Button", "LeftButton" }, // 点击鼠标按钮
+                { "TopMost", false }      // 窗口顶置
+            };
+
+            // 使用循环初始化配置
+            foreach (var setting in settings)
+            {
+                if (setting.Value is int intValue)
+                {
+                    config["Settings"][setting.Key].IntValue = intValue;
+                }
+                else if (setting.Value is string stringValue)
+                {
+                    config["Settings"][setting.Key].StringValue = stringValue;
+                }
+                else if (setting.Value is bool boolValue)
+                {
+                    config["Settings"][setting.Key].BoolValue = boolValue;
+                }
+            }
         }
+
 
         public static void SaveSettings(string fileName, string key, object value)
         {
-            CreateFile(fileName);
-
             var configFile = Configuration.LoadFromFile(fileName);
             var section = configFile["Settings"];
 
@@ -50,8 +71,6 @@ namespace AutoClicker
 
         public static object LoadSettings(string fileName, string key, Type valueType)
         {
-            CreateFile(fileName);
-
             var configFile = Configuration.LoadFromFile(fileName);
             var section = configFile["Settings"];
 

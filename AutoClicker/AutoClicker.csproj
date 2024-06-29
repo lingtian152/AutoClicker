@@ -65,43 +65,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\updater.cs">
+    <Compile Include="src\form\updater.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\updater.Designer.cs">
+    <Compile Include="src\form\updater.Designer.cs">
       <DependentUpon>updater.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\setting.cs">
+    <Compile Include="src\form\setting.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\setting.Designer.cs">
+    <Compile Include="src\form\setting.Designer.cs">
       <DependentUpon>setting.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Form_notification.cs">
+    <Compile Include="src\form\Form_notification.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Form_notification.Designer.cs">
+    <Compile Include="src\form\Form_notification.Designer.cs">
       <DependentUpon>Form_notification.cs</DependentUpon>
     </Compile>
-    <Compile Include="AutoClicker.cs" />
-    <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="src\Utilities\AutoClicker.cs" />
+    <Compile Include="src\Utilities\ConfigurationManager.cs" />
     <Compile Include="Autoclick_form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Autoclick_form.Designer.cs">
       <DependentUpon>Autoclick_form.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardHook.cs" />
+    <Compile Include="src\Utilities\DragForm.cs" />
+    <Compile Include="src\Utilities\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="version_check.cs" />
-    <EmbeddedResource Include="src\updater.resx">
+    <Compile Include="src\Utilities\version_check.cs" />
+    <EmbeddedResource Include="src\form\updater.resx">
       <DependentUpon>updater.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\setting.resx">
+    <EmbeddedResource Include="src\form\setting.resx">
       <DependentUpon>setting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Form_notification.resx">
+    <EmbeddedResource Include="src\form\Form_notification.resx">
       <DependentUpon>Form_notification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Autoclick_form.resx">
