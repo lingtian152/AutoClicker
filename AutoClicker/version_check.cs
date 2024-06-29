@@ -34,7 +34,7 @@ namespace AutoClicker
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Form_Alert.ShowNotice("Failed to check for updates", MsgType.Error);
             }
