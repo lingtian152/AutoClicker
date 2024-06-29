@@ -38,12 +38,14 @@
             this.Close_button = new System.Windows.Forms.Button();
             this.minize_button = new System.Windows.Forms.Button();
             this.version_label = new System.Windows.Forms.Label();
+            this.setting_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Cooldown_Label
             // 
             this.Cooldown_Label.AutoSize = true;
             this.Cooldown_Label.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Cooldown_Label.ForeColor = System.Drawing.Color.Black;
             this.Cooldown_Label.Location = new System.Drawing.Point(22, 54);
             this.Cooldown_Label.Name = "Cooldown_Label";
             this.Cooldown_Label.Size = new System.Drawing.Size(124, 28);
@@ -54,7 +56,9 @@
             // HotKey_Label
             // 
             this.HotKey_Label.AutoSize = true;
+            this.HotKey_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HotKey_Label.Font = new System.Drawing.Font("宋体", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.HotKey_Label.ForeColor = System.Drawing.Color.Black;
             this.HotKey_Label.Location = new System.Drawing.Point(22, 137);
             this.HotKey_Label.Name = "HotKey_Label";
             this.HotKey_Label.Size = new System.Drawing.Size(110, 28);
@@ -66,6 +70,7 @@
             // 
             this.Cooldown_Box.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.Cooldown_Box.Font = new System.Drawing.Font("宋体", 15F);
+            this.Cooldown_Box.ForeColor = System.Drawing.Color.Black;
             this.Cooldown_Box.Location = new System.Drawing.Point(164, 57);
             this.Cooldown_Box.Name = "Cooldown_Box";
             this.Cooldown_Box.Size = new System.Drawing.Size(177, 36);
@@ -74,7 +79,9 @@
             // 
             // HotKey_Select
             // 
+            this.HotKey_Select.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HotKey_Select.Font = new System.Drawing.Font("宋体", 15F);
+            this.HotKey_Select.ForeColor = System.Drawing.Color.Black;
             this.HotKey_Select.FormattingEnabled = true;
             this.HotKey_Select.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.HotKey_Select.Items.AddRange(new object[] {
@@ -100,7 +107,8 @@
             this.Status.AutoSize = true;
             this.Status.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Status.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Status.Location = new System.Drawing.Point(86, 273);
+            this.Status.ForeColor = System.Drawing.Color.Black;
+            this.Status.Location = new System.Drawing.Point(96, 260);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(211, 41);
             this.Status.TabIndex = 6;
@@ -110,6 +118,7 @@
             // 
             this.LeftButton_Select.AutoSize = true;
             this.LeftButton_Select.Font = new System.Drawing.Font("宋体", 14F);
+            this.LeftButton_Select.ForeColor = System.Drawing.Color.Black;
             this.LeftButton_Select.Location = new System.Drawing.Point(10, 216);
             this.LeftButton_Select.Name = "LeftButton_Select";
             this.LeftButton_Select.Size = new System.Drawing.Size(163, 28);
@@ -123,6 +132,7 @@
             // 
             this.RightButton_Select.AutoSize = true;
             this.RightButton_Select.Font = new System.Drawing.Font("宋体", 14F);
+            this.RightButton_Select.ForeColor = System.Drawing.Color.Black;
             this.RightButton_Select.Location = new System.Drawing.Point(203, 216);
             this.RightButton_Select.Name = "RightButton_Select";
             this.RightButton_Select.Size = new System.Drawing.Size(175, 28);
@@ -135,11 +145,12 @@
             // Close_button
             // 
             this.Close_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Close_button.BackColor = System.Drawing.SystemColors.Control;
+            this.Close_button.BackColor = System.Drawing.Color.Red;
+            this.Close_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Close_button.FlatAppearance.BorderSize = 0;
             this.Close_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Close_button.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
-            this.Close_button.ForeColor = System.Drawing.Color.Black;
+            this.Close_button.ForeColor = System.Drawing.Color.White;
             this.Close_button.Location = new System.Drawing.Point(481, 12);
             this.Close_button.Name = "Close_button";
             this.Close_button.Size = new System.Drawing.Size(31, 34);
@@ -150,35 +161,53 @@
             // 
             // minize_button
             // 
-            this.minize_button.BackColor = System.Drawing.SystemColors.Control;
+            this.minize_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(0)))));
+            this.minize_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.minize_button.FlatAppearance.BorderSize = 0;
             this.minize_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.minize_button.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
+            this.minize_button.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
+            this.minize_button.ForeColor = System.Drawing.Color.White;
             this.minize_button.Location = new System.Drawing.Point(444, 12);
             this.minize_button.Name = "minize_button";
             this.minize_button.Size = new System.Drawing.Size(31, 34);
             this.minize_button.TabIndex = 10;
-            this.minize_button.Text = "_";
+            this.minize_button.Text = "-";
             this.minize_button.UseVisualStyleBackColor = false;
             this.minize_button.Click += new System.EventHandler(this.minize_button_Click);
             // 
             // version_label
             // 
             this.version_label.AutoSize = true;
-            this.version_label.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.version_label.Location = new System.Drawing.Point(378, 308);
+            this.version_label.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.version_label.ForeColor = System.Drawing.Color.Black;
+            this.version_label.Location = new System.Drawing.Point(438, 324);
             this.version_label.Name = "version_label";
-            this.version_label.Size = new System.Drawing.Size(134, 35);
+            this.version_label.Size = new System.Drawing.Size(74, 19);
             this.version_label.TabIndex = 13;
             this.version_label.Text = "V{number}";
             this.version_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // setting_button
+            // 
+            this.setting_button.BackgroundImage = global::AutoClicker.Properties.Resources.setting;
+            this.setting_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.setting_button.FlatAppearance.BorderSize = 0;
+            this.setting_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setting_button.Location = new System.Drawing.Point(370, 305);
+            this.setting_button.Name = "setting_button";
+            this.setting_button.Size = new System.Drawing.Size(41, 38);
+            this.setting_button.TabIndex = 14;
+            this.setting_button.UseVisualStyleBackColor = true;
+            this.setting_button.Click += new System.EventHandler(this.setting_button_click);
             // 
             // Autoclick_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(180)))), ((int)(((byte)(128)))));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(524, 352);
+            this.Controls.Add(this.setting_button);
             this.Controls.Add(this.version_label);
             this.Controls.Add(this.minize_button);
             this.Controls.Add(this.Close_button);
@@ -189,6 +218,7 @@
             this.Controls.Add(this.Cooldown_Box);
             this.Controls.Add(this.HotKey_Label);
             this.Controls.Add(this.Cooldown_Label);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.Name = "Autoclick_form";
@@ -214,6 +244,7 @@
         private System.Windows.Forms.Button Close_button;
         private System.Windows.Forms.Button minize_button;
         private System.Windows.Forms.Label version_label;
+        private System.Windows.Forms.Button setting_button;
     }
 }
 

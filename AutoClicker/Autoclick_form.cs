@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace AutoClicker
 {
@@ -13,6 +14,7 @@ namespace AutoClicker
         private string HotKey = "F1";
         private string ButtonType = "LeftButton";
         private bool isClicking;
+
 
         // 实例化类
         AutoClicker autoClicker = new AutoClicker();
@@ -26,9 +28,9 @@ namespace AutoClicker
         // 拖动窗体
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
 
@@ -73,7 +75,7 @@ namespace AutoClicker
                 this.ButtonType = (string)LoadSettings("Button", typeof(string));
                 Form_Alert.ShowNotice("Settings loaded", MsgType.Success);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Form_Alert.ShowNotice("Failed to load settings", MsgType.Error);
             }
@@ -151,12 +153,7 @@ namespace AutoClicker
             autoClicker.StopClick();
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            keyboardHook?.Stop();
-            autoClicker.StopClick();
-            base.OnFormClosing(e);
-        }
+        
 
         private void Close_button_Click(object sender, EventArgs e)
         {
@@ -181,13 +178,25 @@ namespace AutoClicker
 
         private void setting_button_click(object sender, EventArgs e)
         {
-            setting setting = new setting();
-            setting.Show();
+            // 检查是否已经有设置窗口打开
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is setting)
+                {
+                    form.BringToFront(); // 将现有的设置窗口置于最前
+                    return;
+                }
+            }
+
+            // 如果没有设置窗口打开，则创建新的设置窗口
+            setting settingForm = new setting(this);
+            settingForm.Show();
         }
 
+
         private void Autoclick_form_Load(object sender, EventArgs e)
-        { 
-            try
+        {
+            try // check verison
             {
                 this.version_label.Text = "V" + Resources.version; // show version on load
 
@@ -207,6 +216,13 @@ namespace AutoClicker
             {
                 MessageBox.Show("Failed to delete pending overwrite file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            keyboardHook?.Stop();
+            autoClicker.StopClick();
+            base.OnFormClosing(e);
         }
     }
 }
