@@ -361,3 +361,19 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+/AutoClicker/bin/Debug
+/AutoClicker/bin/Release
+/AutoClicker/obj/Debug
+/AutoClicker/obj/Release
+/Installer/bin/Debug
+/Installer/bin/Release
+src/AutoClicker.exe
+src/AutoClicker.exe.config
+src/DotNetZip.dll
+src/DotNetZip.xml
+src/Newtonsoft.Json.dll
+src/Newtonsoft.Json.xml
+src/SharpConfig.dll
+src/SharpConfig.xml
+src/settings.ini
