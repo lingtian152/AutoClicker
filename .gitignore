@@ -17,31 +17,26 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
+[Dd]ebug*/
+[Rr]elease*/
 x64/
 x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
-bld/
 [Bb]in/
 [Oo]bj/
-[Oo]ut/
 [Ll]og/
 [Ll]ogs/
 
-# Visual Studio 2015/2017 cache/options directory
+# Visual Studio cache/options directory
 .vs/
-# Uncomment if you have tasks that create the project's static files in wwwroot
-#wwwroot/
 
-# Visual Studio 2017 auto generated files
+# Visual Studio auto generated files
 Generated\ Files/
+*.pidb
 
-# MSTest test Results
+# MSTest test results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
@@ -49,19 +44,6 @@ Generated\ Files/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-
-# Build Results of an ATL Project
-[Dd]ebugPS/
-[Rr]eleasePS/
-dlldata.c
-
-# Benchmark Results
-BenchmarkDotNet.Artifacts/
-
-# .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
@@ -94,12 +76,8 @@ StyleCopReport.xml
 *.vspscc
 *.vssscc
 .builds
-*.pidb
 *.svclog
 *.scc
-
-# Chutzpah Test files
-_Chutzpah*
 
 # Visual C++ cache files
 ipch/
@@ -118,7 +96,7 @@ ipch/
 *.vspx
 *.sap
 
-# Visual Studio Trace Files
+# Visual Studio trace files
 *.e2e
 
 # TFS 2012 Local Workspace
@@ -135,14 +113,14 @@ _ReSharper*/
 # TeamCity is a build add-in
 _TeamCity*
 
-# DotCover is a Code Coverage Tool
+# DotCover is a code coverage tool
 *.dotCover
 
-# AxoCover is a Code Coverage Tool
+# AxoCover is a code coverage tool
 .axoCover/*
 !.axoCover/settings.json
 
-# Coverlet is a free, cross platform Code Coverage Tool
+# Coverlet is a cross platform code coverage tool
 coverage*.json
 coverage*.xml
 coverage*.info
@@ -168,13 +146,7 @@ AutoTest.Net/
 
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
-DocProject/Help/*.HxT
-DocProject/Help/*.HxC
-DocProject/Help/*.hhc
-DocProject/Help/*.hhk
-DocProject/Help/*.hhp
-DocProject/Help/Html2
-DocProject/Help/html
+DocProject/Help/
 
 # Click-Once directory
 publish/
@@ -182,31 +154,21 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# Note: Comment the next line if you want to checkin your web deploy settings,
-# but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
 
-# Microsoft Azure Web App publish settings. Comment the next line if you want to
-# checkin your Azure Web App publish settings, but sensitive information contained
-# in these scripts will be unencrypted
+# Microsoft Azure Web App publish settings
 PublishScripts/
 
-# NuGet Packages
+# NuGet packages
 *.nupkg
-# NuGet Symbol Packages
 *.snupkg
-# The packages folder can be ignored because of Package Restore
 **/[Pp]ackages/*
-# except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
-# Uncomment if necessary however generally it will be regenerated when needed
-#!**/[Pp]ackages/repositories.config
-# NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
 
-# Microsoft Azure Build Output
+# Microsoft Azure build output
 csx/
 *.build.csdef
 
@@ -224,9 +186,7 @@ _pkginfo.txt
 *.appxupload
 
 # Visual Studio cache files
-# files ending in .cache can be ignored
 *.[Cc]ache
-# but keep track of directories ending in .cache
 !?*.[Cc]ache/
 
 # Others
@@ -241,19 +201,12 @@ ClientBin/
 orleans.codegen.cs
 
 # Including strong name files can present a security risk
-# (https://github.com/github/gitignore/pull/2483#issue-259490424)
-#*.snk
-
-# Since there are multiple workflows, uncomment next line to ignore bower_components
-# (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
-#bower_components/
+# *.snk
 
 # RIA/Silverlight projects
 Generated_Code/
 
 # Backup & report files from converting an old project file
-# to a newer Visual Studio version. Backup files are not needed,
-# because we have git ;-)
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
@@ -291,7 +244,7 @@ node_modules/
 # Visual Studio 6 workspace options file
 *.opt
 
-# Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
+# Visual Studio 6 auto-generated workspace file
 *.vbw
 
 # Visual Studio LightSwitch build output
@@ -362,18 +315,20 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-/AutoClicker/bin/Debug
-/AutoClicker/bin/Release
-/AutoClicker/obj/Debug
-/AutoClicker/obj/Release
-/Installer/bin/Debug
-/Installer/bin/Release
-src/AutoClicker.exe
-src/AutoClicker.exe.config
-src/DotNetZip.dll
-src/DotNetZip.xml
-src/Newtonsoft.Json.dll
-src/Newtonsoft.Json.xml
-src/SharpConfig.dll
-src/SharpConfig.xml
+# Ignore AutoClicker specific output directories and files
+/AutoClicker/bin/
+/AutoClicker/obj/
+/Installer/bin/
+/Installer/obj/
+
+# Ignore specific files in the src directory
+src/*.exe
+src/*.config
+src/*.dll
+src/*.xml
 src/settings.ini
+
+
+# Include specific folders for version control
+!src/MyLibrary/
+!src/MyLibrary/**
