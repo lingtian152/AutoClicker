@@ -7,7 +7,7 @@ namespace AutoClicker
 {
     class ConfigurationManager
     {
-        private static void CreateFile(string fileName)
+        public static void CreateFile(string fileName)
         {
             // 创建文件
             if (!File.Exists(fileName))
@@ -50,6 +50,8 @@ namespace AutoClicker
 
         public static void SaveSettings(string fileName, string key, object value)
         {
+            CreateFile(fileName);
+
             var configFile = Configuration.LoadFromFile(fileName);
             var section = configFile["Settings"];
 

@@ -20,7 +20,6 @@ namespace AutoClicker
         AutoClicker autoClicker = new AutoClicker();
         KeyboardHook keyboardHook;
 
-
         // 保存和加载设置
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
         static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
