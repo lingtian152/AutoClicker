@@ -104,24 +104,31 @@ namespace AutoClicker
 
         private void AdjustLabelSize()
         {
-            lblMsg.AutoSize = true;
-            lblMsg.Font = new Font(lblMsg.Font.FontFamily, 12); // 设置初始字体大小
+            lblMsg.AutoSize = false; // 禁用自动调整大小
 
             // 计算标签的大小以适应文本
             using (Graphics g = lblMsg.CreateGraphics())
             {
-                SizeF size = g.MeasureString(lblMsg.Text, lblMsg.Font);
+                SizeF size = g.MeasureString(lblMsg.Text, lblMsg.Font, this.Width - 80); // 设置最大宽度限制
                 lblMsg.Width = (int)size.Width + 20; // 添加一些填充
                 lblMsg.Height = (int)size.Height + 10; // 添加一些填充
             }
 
-            // 限制最大宽度和最小宽度
-            if (lblMsg.Width > this.Width - 40) // 如果文本宽度超过窗体宽度
+            // 限制最大宽度并启用自动换行
+            if (lblMsg.Width > this.Width - 80) // 如果文本宽度超过窗体宽度
             {
-                lblMsg.Width = this.Width - 40; // 限制宽度
-                lblMsg.AutoEllipsis = true; // 启用省略号
+                lblMsg.Width = this.Width - 80; // 限制宽度
+                lblMsg.MaximumSize = new Size(this.Width - 80, 0); // 设置最大宽度，并让高度自动调整
+                lblMsg.AutoEllipsis = false; // 禁用省略号
             }
+            else
+            {
+                lblMsg.MaximumSize = new Size(0, 0); // 禁用最大宽度限制
+            }
+
+            lblMsg.Text = lblMsg.Text; // 重新设置文本以触发自动换行
         }
+
 
         public void Position()
         {

@@ -26,11 +26,11 @@
             // lblMsg
             // 
             this.lblMsg.AutoSize = true;
-            this.lblMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.lblMsg.Location = new System.Drawing.Point(136, 40);
+            this.lblMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblMsg.Location = new System.Drawing.Point(114, 27);
             this.lblMsg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMsg.Name = "lblMsg";
-            this.lblMsg.Size = new System.Drawing.Size(133, 29);
+            this.lblMsg.Size = new System.Drawing.Size(106, 25);
             this.lblMsg.TabIndex = 0;
             this.lblMsg.Text = "{message}";
             this.lblMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
