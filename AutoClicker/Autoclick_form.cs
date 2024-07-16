@@ -9,16 +9,17 @@ namespace AutoClicker
     public partial class Autoclick_form : Form
     {
         // 程序配置
-        static string FileName = "settings.ini";
-        private int clickInterval = 100;
-        private string HotKey = "F1";
-        private string ButtonType = "LeftButton";
-        private bool isClicking;
-
+        private int clickInterval { get; set; } = 100;
+        private string HotKey { get; set; } = "F1";
+        private string ButtonType { get; set; } = "LeftButton";
+        private bool isClicking { get; set; } = false;
+        
 
         // 实例化类
         AutoClicker autoClicker = new AutoClicker();
         KeyboardHook keyboardHook;
+
+        private string FileName { get; } = "./settings.ini";
 
         // 保存和加载设置
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);

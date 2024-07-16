@@ -8,7 +8,7 @@ namespace AutoClicker
 {
     public partial class setting : Form
     {
-        static string FileName = "./settings.ini";
+        static string FileName { get; } = "./settings.ini";
         private Form mainForm;
 
         static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
