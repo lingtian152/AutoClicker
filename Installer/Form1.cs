@@ -10,7 +10,7 @@ namespace Installer
     public partial class Installer : Form
     {
         public string currentPath = "./";
-        private string downloadUrl = "https://github.com/lingtian152/AutoClicker/releases/latest/download/AutoClicker.zip"; // Replace with your actual download URL
+        private string downloadUrl = "https://github.com/lingtian152/AutoClicker/releases/latest/download/AutoClicker.zip";
         private string tempDownloadPath = Path.Combine(Path.GetTempPath(), "AutoClicker.zip");
         private bool isDownloading;
 
