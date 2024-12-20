@@ -7,9 +7,10 @@ namespace AutoClicker
 {
     class ConfigurationManager
     {
+        private const string SectionName = "Settings";
+
         public static void CreateFile(string fileName)
         {
-            // 创建文件
             if (!File.Exists(fileName))
             {
                 var config = new Configuration();
@@ -20,61 +21,33 @@ namespace AutoClicker
 
         private static void InitConfig(Configuration config)
         {
-            // 配置项字典
             var settings = new Dictionary<string, object>
             {
-                { "ClickInterval", 100 }, // 点击间隔
-                { "HotKey", "F1" },       // 热键
-                { "Button", "LeftButton" }, // 点击鼠标按钮
-                { "TopMost", false }      // 窗口顶置
+                { "ClickInterval", 100 },
+                { "HotKey", "F1" },
+                { "Button", "LeftButton" },
+                { "TopMost", false }
             };
 
-            // 使用循环初始化配置
             foreach (var setting in settings)
             {
-                if (setting.Value is int intValue)
-                {
-                    config["Settings"][setting.Key].IntValue = intValue;
-                }
-                else if (setting.Value is string stringValue)
-                {
-                    config["Settings"][setting.Key].StringValue = stringValue;
-                }
-                else if (setting.Value is bool boolValue)
-                {
-                    config["Settings"][setting.Key].BoolValue = boolValue;
-                }
+                SetConfigValue(config, setting.Key, setting.Value);
             }
         }
-
 
         public static void SaveSettings(string fileName, string key, object value)
         {
             CreateFile(fileName);
 
             var configFile = Configuration.LoadFromFile(fileName);
-            var section = configFile["Settings"];
-
-            if (value is string stringValue)
-            {
-                section[key].StringValue = stringValue;
-            }
-            else if (value is int intValue)
-            {
-                section[key].IntValue = intValue;
-            }
-            else if (value is bool boolValue)
-            {
-                section[key].BoolValue = boolValue;
-            }
-
+            SetConfigValue(configFile, key, value);
             configFile.SaveToFile(fileName);
         }
 
         public static object LoadSettings(string fileName, string key, Type valueType)
         {
             var configFile = Configuration.LoadFromFile(fileName);
-            var section = configFile["Settings"];
+            var section = configFile[SectionName];
 
             if (valueType == typeof(string))
             {
@@ -90,7 +63,27 @@ namespace AutoClicker
             }
             else
             {
-                return null;
+                throw new ArgumentException("Unsupported value type", nameof(valueType));
+            }
+        }
+
+        private static void SetConfigValue(Configuration config, string key, object value)
+        {
+            var section = config[SectionName];
+
+            switch (value)
+            {
+                case string stringValue:
+                    section[key].StringValue = stringValue;
+                    break;
+                case int intValue:
+                    section[key].IntValue = intValue;
+                    break;
+                case bool boolValue:
+                    section[key].BoolValue = boolValue;
+                    break;
+                default:
+                    throw new ArgumentException("Unsupported value type", nameof(value));
             }
         }
     }

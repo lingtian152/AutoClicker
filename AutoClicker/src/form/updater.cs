@@ -11,9 +11,9 @@ namespace AutoClicker
 {
     public partial class Updater : Form
     {
-        private string currentPath = "./";
-        private string downloadUrl = "https://github.com/lingtian152/AutoClicker/releases/latest/download/AutoClicker.zip"; // Replace with your actual download URL
-        private string tempDownloadPath = Path.Combine(Path.GetTempPath(), "AutoClicker.zip");
+        private readonly string currentPath = "./";
+        private readonly string downloadUrl = "https://github.com/lingtian152/AutoClicker/releases/latest/download/AutoClicker.zip"; // Replace with your actual download URL
+        private readonly string tempDownloadPath = Path.Combine(Path.GetTempPath(), "AutoClicker.zip");
 
         public Updater()
         {
@@ -26,20 +26,15 @@ namespace AutoClicker
         {
             try
             {
-                if (currentPath.EndsWith("\\"))
-                {
-                    currentPath = currentPath.Substring(0, currentPath.Length - 1);
-                }
-
-                Thread t = new Thread(new ThreadStart(DownloadAndUpgrade))
+                Thread downloadThread = new Thread(DownloadAndUpgrade)
                 {
                     IsBackground = true
                 };
-                t.Start();
+                downloadThread.Start();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Thread error: " + ex.Message, "Thread Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Thread error: " + ex.Message, "Thread Error");
             }
         }
 
@@ -53,7 +48,7 @@ namespace AutoClicker
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Download and upgrade error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Download and upgrade error: " + ex.Message, "Error");
             }
         }
 
@@ -69,36 +64,41 @@ namespace AutoClicker
         {
             try
             {
-                string destinationPath = currentPath;
-
-                using (ZipFile zip = ZipFile.Read(zipFilePath))
-                {
-                    zip.ExtractAll(destinationPath, ExtractExistingFileAction.OverwriteSilently);
-                }
-
-                List<FileInfo> listInfos = FindAllFiles(Path.Combine(currentPath, ".\\AutoClicker"));
-                foreach (var file in listInfos)
-                {
-                    string relativeFilePath = file.FullName.Substring(file.FullName.IndexOf("AutoClicker") + 11);
-                    string destinationFile = Path.Combine(currentPath, relativeFilePath);
-
-                    string destinationDirectory = Path.GetDirectoryName(destinationFile);
-                    if (!Directory.Exists(destinationDirectory))
-                    {
-                        Directory.CreateDirectory(destinationDirectory);
-                    }
-
-                    File.Copy(file.FullName, destinationFile, true);
-                }
-
+                ExtractZipFile(zipFilePath, currentPath);
+                CopyFilesToDestination(Path.Combine(currentPath, ".\\AutoClicker"), currentPath);
                 MessageBox.Show("Upgrade completed successfully.", "Upgrade", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Upgrade error: " + ex.Message, "Upgrade Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Upgrade error: " + ex.Message, "Upgrade Error");
             }
         }
 
+        private void ExtractZipFile(string zipFilePath, string destinationPath)
+        {
+            using (ZipFile zip = ZipFile.Read(zipFilePath))
+            {
+                zip.ExtractAll(destinationPath, ExtractExistingFileAction.OverwriteSilently);
+            }
+        }
+
+        private void CopyFilesToDestination(string sourcePath, string destinationPath)
+        {
+            List<FileInfo> files = FindAllFiles(sourcePath);
+            foreach (var file in files)
+            {
+                string relativeFilePath = file.FullName.Substring(file.FullName.IndexOf("AutoClicker") + 11);
+                string destinationFile = Path.Combine(destinationPath, relativeFilePath);
+
+                string destinationDirectory = Path.GetDirectoryName(destinationFile);
+                if (!Directory.Exists(destinationDirectory))
+                {
+                    Directory.CreateDirectory(destinationDirectory);
+                }
+
+                File.Copy(file.FullName, destinationFile, true);
+            }
+        }
 
         private List<FileInfo> FindAllFiles(string directoryPath)
         {
@@ -120,32 +120,45 @@ namespace AutoClicker
         {
             try
             {
-                string sourcePath = tempDownloadPath;
-                if (File.Exists(sourcePath))
-                {
-                    File.Delete(sourcePath);
-                }
-
-                string upgradeDirectory = Path.Combine(".\\AutoClicker");
-                if (Directory.Exists(upgradeDirectory))
-                {
-                    Directory.Delete(upgradeDirectory, true);
-                }
-
-                string filename = Path.Combine(".\\AutoClicker.exe");
-                if (File.Exists(filename))
-                {
-                    Process.Start(filename);
-                }
-
-                // Instead of killing the current process, you may consider closing the application gracefully.
-                Application.Exit();
+                DeleteFile(tempDownloadPath);
+                DeleteDirectory(Path.Combine(".\\AutoClicker"));
+                RestartApplication(Path.Combine(".\\AutoClicker.exe"));
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Clean-up error: " + ex.Message, "Clean-up Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Clean-up error: " + ex.Message, "Clean-up Error");
+            }
+        }
+
+        private void DeleteFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        private void DeleteDirectory(string directoryPath)
+        {
+            if (Directory.Exists(directoryPath))
+            {
+                Directory.Delete(directoryPath, true);
+            }
+        }
+
+        private void RestartApplication(string applicationPath)
+        {
+            if (File.Exists(applicationPath))
+            {
+                Process.Start(applicationPath);
             }
 
+            Application.Exit();
+        }
+
+        private void ShowErrorMessage(string message, string caption)
+        {
+            MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

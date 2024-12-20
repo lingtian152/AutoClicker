@@ -1,5 +1,4 @@
-﻿using AutoClicker.Properties;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
 using AutoClicker.src.Utilities;
@@ -13,30 +12,31 @@ namespace AutoClicker
         private string HotKey { get; set; } = "F1";
         private string ButtonType { get; set; } = "LeftButton";
         private bool isClicking { get; set; } = false;
-        
 
         // 实例化类
-        AutoClicker autoClicker = new AutoClicker();
-        KeyboardHook keyboardHook;
+        private AutoClicker autoClicker = new AutoClicker();
+        private KeyboardHook keyboardHook;
 
-        private string FileName { get; } = "./settings.ini";
+        private const string FileName = "./settings.ini";
 
         // 保存和加载设置
-        static Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
-        static Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
+        private static readonly Action<string, object> SaveSettings = (key, value) => ConfigurationManager.SaveSettings(FileName, key, value);
+        private static readonly Func<string, Type, object> LoadSettings = (key, type) => ConfigurationManager.LoadSettings(FileName, key, type);
 
-    // 构造函数
-    public Autoclick_form()
+        // 构造函数
+        public Autoclick_form()
         {
             InitializeComponent();
 
             this.Status.Text = "Status: Off";
 
-            this.Cooldown_Box.TextChanged += new EventHandler(Cooldown_Changed);
-            this.HotKey_Select.SelectedIndexChanged += new EventHandler(HotkeySelec_Changed);
+            this.Cooldown_Box.TextChanged += Cooldown_Changed;
+            this.HotKey_Select.SelectedIndexChanged += HotkeySelec_Changed;
+            this.LeftButton_Select.CheckedChanged += LeftButton_Select_CheckedChanged;
+            this.RightButton_Select.CheckedChanged += RightButton_Select_CheckedChanged;
 
             keyboardHook = new KeyboardHook();
-            keyboardHook.KeyDownEvent += new KeyEventHandler(Hook_KeyDown);
+            keyboardHook.KeyDownEvent += Hook_KeyDown;
             keyboardHook.Start();
 
             LoadSetting();
@@ -52,11 +52,13 @@ namespace AutoClicker
             {
                 this.RightButton_Select.Checked = true;
             }
+
+            // 添加窗体拖动事件
+            this.MouseDown += new MouseEventHandler(Autoclick_form_MouseDown);
         }
 
         private void LoadSetting()
         {
-
             Form_Alert.ShowNotice("Loading settings", MsgType.Info);
 
             try
@@ -74,16 +76,9 @@ namespace AutoClicker
 
         private void Cooldown_Changed(object sender, EventArgs e)
         {
-            if (!int.TryParse(this.Cooldown_Box.Text, out int interval))
+            if (!int.TryParse(this.Cooldown_Box.Text, out int interval) || interval <= 0)
             {
-                Form_Alert.ShowNotice("Please enter a number", MsgType.Error);
-                this.Cooldown_Box.Text = "100";
-                clickInterval = 100;
-                return;
-            }
-            else if (interval <= 0)
-            {
-                Form_Alert.ShowNotice("Please enter a number greater than 0", MsgType.Error);
+                Form_Alert.ShowNotice("Please enter a valid number greater than 0", MsgType.Error);
                 this.Cooldown_Box.Text = "100";
                 clickInterval = 100;
                 return;
@@ -101,16 +96,22 @@ namespace AutoClicker
 
         private void LeftButton_Select_CheckedChanged(object sender, EventArgs e)
         {
-            Form_Alert.ShowNotice("Left button selected", MsgType.Success);
-            this.ButtonType = "LeftButton";
-            SaveSettings("Button", ButtonType);
+            if (this.LeftButton_Select.Checked)
+            {
+                Form_Alert.ShowNotice("Left button selected", MsgType.Success);
+                this.ButtonType = "LeftButton";
+                SaveSettings("Button", ButtonType);
+            }
         }
 
         private void RightButton_Select_CheckedChanged(object sender, EventArgs e)
         {
-            Form_Alert.ShowNotice("Right button selected", MsgType.Success);
-            this.ButtonType = "RightButton";
-            SaveSettings("Button", ButtonType);
+            if (this.RightButton_Select.Checked)
+            {
+                Form_Alert.ShowNotice("Right button selected", MsgType.Success);
+                this.ButtonType = "RightButton";
+                SaveSettings("Button", ButtonType);
+            }
         }
 
         private void Hook_KeyDown(object sender, KeyEventArgs e)
@@ -144,21 +145,17 @@ namespace AutoClicker
             autoClicker.StopClick();
         }
 
-        
-
         private void Close_button_Click(object sender, EventArgs e)
         {
-            // Close the form
             this.Close();
         }
 
-        private void minize_button_Click(object sender, EventArgs e)
+        private void Minize_button_Click(object sender, EventArgs e)
         {
-            // Minimize the form
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void Autoclick_form_MouseDown(object sender, MouseEventArgs e) // 拖动窗体
+        private void Autoclick_form_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -166,39 +163,32 @@ namespace AutoClicker
             }
         }
 
-        private void setting_button_click(object sender, EventArgs e)
+        private void Setting_button_Click(object sender, EventArgs e)
         {
-            // 检查是否已经有设置窗口打开
             foreach (Form form in Application.OpenForms)
             {
                 if (form is setting)
                 {
-                    form.BringToFront(); // 将现有的设置窗口置于最前
+                    form.BringToFront();
                     return;
                 }
             }
 
-            // 如果没有设置窗口打开，则创建新的设置窗口
             setting settingForm = new setting(this);
             settingForm.Show();
         }
 
-
         private void Autoclick_form_Load(object sender, EventArgs e)
         {
-            try // check verison
+            try
             {
-                this.version_label.Text = "V" + Resources.version; // show version on load
+                VersionCheck versionCheck = new VersionCheck();
+                versionCheck.GetLastVersion();
 
-                version_check version_Check = new version_check();
-                version_Check.GetLastVersion();
-
-                // 获取当前目录中所有 .PendingOverwrite 扩展名的文件
                 string[] pendingOverwriteFiles = Directory.GetFiles("./", "*.PendingOverwrite");
 
                 foreach (string file in pendingOverwriteFiles)
                 {
-                    // 移动到回收站而不是直接删除
                     File.Delete(file);
                 }
             }

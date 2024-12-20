@@ -4,6 +4,9 @@
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblMsg;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel imagePanel;
+        private System.Windows.Forms.Timer timer1;
 
         protected override void Dispose(bool disposing)
         {
@@ -19,7 +22,7 @@
             this.components = new System.ComponentModel.Container();
             this.lblMsg = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.image_panel = new System.Windows.Forms.Panel();
+            this.imagePanel = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -42,20 +45,20 @@
             this.panel1.Size = new System.Drawing.Size(10, 110);
             this.panel1.TabIndex = 2;
             // 
-            // image_panel
+            // imagePanel
             // 
-            this.image_panel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_panel.Location = new System.Drawing.Point(17, 16);
-            this.image_panel.Name = "image_panel";
-            this.image_panel.Size = new System.Drawing.Size(90, 88);
-            this.image_panel.TabIndex = 3;
+            this.imagePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imagePanel.Location = new System.Drawing.Point(17, 16);
+            this.imagePanel.Name = "imagePanel";
+            this.imagePanel.Size = new System.Drawing.Size(90, 88);
+            this.imagePanel.TabIndex = 3;
             // 
             // Form_Alert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(373, 117);
-            this.Controls.Add(this.image_panel);
+            this.Controls.Add(this.imagePanel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblMsg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -66,10 +69,6 @@
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel image_panel;
-        private System.Windows.Forms.Timer timer1;
     }
 }

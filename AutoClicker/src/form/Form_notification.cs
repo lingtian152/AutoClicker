@@ -8,9 +8,9 @@ namespace AutoClicker
 {
     public enum NotificationFormAction
     {
-        start,
-        wait,
-        close
+        Start,
+        Wait,
+        Close
     }
 
     public enum MsgType
@@ -25,17 +25,16 @@ namespace AutoClicker
     {
         private int alertX, alertY;
         private static int alertFormNum = Screen.PrimaryScreen.WorkingArea.Height / (75 + 5); // 75为窗体高度
-        private NotificationFormAction action = NotificationFormAction.start;
+        private NotificationFormAction action = NotificationFormAction.Start;
         private static int showTime = 3000; // notification show time
-
         private static int currentAlertCount = 0; // 当前显示的通知数量
 
         public Form_Alert(string name)
         {
             InitializeComponent();
             ShowInTaskbar = false;
-            this.Load += Form_Alert_Load;
             Name = name;
+            Load += Form_Alert_Load;
             InitializeTimer();
         }
 
@@ -58,42 +57,41 @@ namespace AutoClicker
 
         private void InitializeTimer()
         {
-            timer1 = new Timer();
-            timer1.Interval = 100; // 设置初始计时器间隔
+            timer1 = new Timer
+            {
+                Interval = 100 // 设置初始计时器间隔
+            };
             timer1.Tick += Timer1_Tick;
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            switch (this.action)
+            switch (action)
             {
-                case NotificationFormAction.wait:
+                case NotificationFormAction.Wait:
                     timer1.Interval = showTime;
-                    action = NotificationFormAction.close;
+                    action = NotificationFormAction.Close;
                     break;
-                case NotificationFormAction.start:
-                    this.timer1.Interval = 100;
-                    this.Opacity += 0.1;
-                    if (this.alertX < this.Location.X)
-                    {
-                        this.Left -= 20; // 移动快点
-                    }
-                    else
-                    {
-                        if (this.Opacity == 1.0)
-                        {
-                            action = NotificationFormAction.wait;
-                        }
-                    }
-                    break;
-                case NotificationFormAction.close:
+                case NotificationFormAction.Start:
                     timer1.Interval = 100;
-                    this.Opacity -= 0.1;
-                    this.Left -= 20;
-                    if (base.Opacity == 0.0)
+                    Opacity += 0.1;
+                    if (alertX < Location.X)
+                    {
+                        Left -= 20; // 移动快点
+                    }
+                    else if (Opacity == 1.0)
+                    {
+                        action = NotificationFormAction.Wait;
+                    }
+                    break;
+                case NotificationFormAction.Close:
+                    timer1.Interval = 100;
+                    Opacity -= 0.1;
+                    Left -= 20;
+                    if (Opacity == 0.0)
                     {
                         timer1.Stop();
-                        base.Close();
+                        Close();
                         currentAlertCount--; // 减少当前显示的通知数量
                     }
                     break;
@@ -109,16 +107,16 @@ namespace AutoClicker
             // 计算标签的大小以适应文本
             using (Graphics g = lblMsg.CreateGraphics())
             {
-                SizeF size = g.MeasureString(lblMsg.Text, lblMsg.Font, this.Width - 80); // 设置最大宽度限制
+                SizeF size = g.MeasureString(lblMsg.Text, lblMsg.Font, Width - 80); // 设置最大宽度限制
                 lblMsg.Width = (int)size.Width + 20; // 添加一些填充
                 lblMsg.Height = (int)size.Height + 10; // 添加一些填充
             }
 
             // 限制最大宽度并启用自动换行
-            if (lblMsg.Width > this.Width - 80) // 如果文本宽度超过窗体宽度
+            if (lblMsg.Width > Width - 80) // 如果文本宽度超过窗体宽度
             {
-                lblMsg.Width = this.Width - 80; // 限制宽度
-                lblMsg.MaximumSize = new Size(this.Width - 80, 0); // 设置最大宽度，并让高度自动调整
+                lblMsg.Width = Width - 80; // 限制宽度
+                lblMsg.MaximumSize = new Size(Width - 80, 0); // 设置最大宽度，并让高度自动调整
                 lblMsg.AutoEllipsis = false; // 禁用省略号
             }
             else
@@ -129,16 +127,15 @@ namespace AutoClicker
             lblMsg.Text = lblMsg.Text; // 重新设置文本以触发自动换行
         }
 
-
         public void Position()
         {
             int screenX = Screen.PrimaryScreen.WorkingArea.Width;
             int screenY = Screen.PrimaryScreen.WorkingArea.Height;
 
-            alertX = screenX - this.Width - 10;
-            alertY = screenY - this.Height - 10 - (this.Height + 5) * currentAlertCount;
+            alertX = screenX - Width - 10;
+            alertY = screenY - Height - 10 - (Height + 5) * currentAlertCount;
 
-            this.Location = new Point(alertX, alertY);
+            Location = new Point(alertX, alertY);
         }
 
         public static void ShowNotice(string msg, MsgType msgType)
@@ -146,7 +143,7 @@ namespace AutoClicker
             if (currentAlertCount < alertFormNum)
             {
                 currentAlertCount++;
-                Form_Alert alert = new Form_Alert("alert" + currentAlertCount.ToString());
+                Form_Alert alert = new Form_Alert("alert" + currentAlertCount);
                 alert.AlertMessage(msg, msgType);
             }
             else
@@ -168,25 +165,25 @@ namespace AutoClicker
             {
                 case MsgType.Success:
                     panel1.BackColor = Color.SeaGreen;
-                    image_panel.BackgroundImage = Resources.success;
+                    imagePanel.BackgroundImage = Resources.success;
                     break;
                 case MsgType.Warning:
                     panel1.BackColor = Color.Orange;
-                    image_panel.BackgroundImage = Resources.warning;
+                    imagePanel.BackgroundImage = Resources.warning;
                     break;
                 case MsgType.Error:
                     panel1.BackColor = Color.DarkRed;
-                    image_panel.BackgroundImage = Resources.error;
+                    imagePanel.BackgroundImage = Resources.error;
                     break;
                 case MsgType.Info:
                     panel1.BackColor = Color.Blue;
-                    image_panel.BackgroundImage = Resources.info;
+                    imagePanel.BackgroundImage = Resources.info;
                     break;
             }
 
             lblMsg.Text = msg;
             AdjustLabelSize();
-            this.Show();
+            Show();
             timer1.Start();
         }
 

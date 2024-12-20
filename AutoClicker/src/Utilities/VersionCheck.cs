@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace AutoClicker
 {
-    class version_check
+    class VersionCheck
     {
 
        private string version;
