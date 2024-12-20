@@ -95,7 +95,7 @@
     <Compile Include="src\Utilities\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Utilities\version_check.cs" />
+    <Compile Include="src\Utilities\VersionCheck.cs" />
     <EmbeddedResource Include="src\form\updater.resx">
       <DependentUpon>updater.cs</DependentUpon>
     </EmbeddedResource>
